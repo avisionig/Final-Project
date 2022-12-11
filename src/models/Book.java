@@ -46,4 +46,9 @@ public class Book {
     public void setPublishDate(Date publishDate) {
         this.publishDate = publishDate;
     }
+    
+    public String toString() {
+    	return "(" + "ID: " + getBookId() + " | " + "Name: " + getName() + " | " +
+    			"Author: " + getAuthor() + " | " + "Published date: " + getPublishDate() + ")";
+    }
 }

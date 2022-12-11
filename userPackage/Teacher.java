@@ -1,18 +1,22 @@
 package userPackage;
 
+import java.time.LocalDate;
+
 public class Teacher extends Employee{
-
+	
 	private static final long serialVersionUID = 1051055956846350581L;
-
-	protected Teacher(String firstName, String lastName) {
-		super(firstName, lastName);
-		// TODO Auto-generated constructor stub
+	private static int teacherNum = 0;
+	protected Teacher(String firstName, String lastName, LocalDate hireDate) {
+		super(firstName, lastName, hireDate);
+		this.setUserID();
+	}
+	
+	{
+		teacherNum++;
 	}
 
-	@Override
-	void setUserID() {
-		// TODO Auto-generated method stub
-		
+	protected void setUserID() {
+		this.userID = String.valueOf(this.hireDate.getYear() - 2000) + "TEACH0" +String.valueOf(teacherNum);
 	}
-
+	
 }

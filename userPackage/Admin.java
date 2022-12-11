@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 import nonUserPackage.Faculty;
 
-public class Admin extends User{
+public final class Admin extends User{
 
 	private Admin(String firstName, String lastName) {
 		super(firstName, lastName);
@@ -23,18 +23,24 @@ public class Admin extends User{
 	}
 	public User addUser() {
 		System.out.println("Who you want to add?");
-		System.out.println("1.Student" + "\n" + "2.Teacher" + "\n" + "3.Manager" + "4.Librarian" + "\n" + "5.Dean");
+		System.out.println("1.Student\n2.Teacher\n3.Manager\n4.Librarian\n5.Dean");
 		try {
 			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-			int line = input.read();
+			int line = Integer.parseInt(input.readLine());
 			System.out.print("Write first and last name:");
 			String names = input.readLine();
 			StringTokenizer st = new StringTokenizer(names);
 			if(line == 1) {
 				System.out.println("Choose faculty:");
-				System.out.println("1." + Faculty.values()[0] + "\n" + "2." + Faculty.values()[1]+ "\n" + "3." + Faculty.values()[2] + "4." + Faculty.values()[3]);
-				int fac = input.read();
-				return new Student(st.nextToken(), st.nextToken(), LocalDate.now(), Faculty.values()[fac - 1]);
+				System.out.println("1." + Faculty.values()[0] + "\n2." + Faculty.values()[1]+ "\n3." + Faculty.values()[2] + "\n4." + Faculty.values()[3]);
+				int fac = Integer.parseInt(input.readLine());
+				return new Student(st.nextToken(), st.nextToken(), LocalDate.now(), Faculty.values()[fac]);
+			}
+			else if (line == 2) {
+				
+			}
+			else if (line == 3) {
+				
 			}
 			
 		}

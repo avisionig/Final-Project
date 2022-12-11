@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.util.Objects;
 
 
 public abstract class User implements Comparable<User>, Serializable, Cloneable {
@@ -92,7 +93,33 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
 		return this.firstName.equals(u.firstName) && this.lastName.equals(u.lastName) && this.userID.equals(u.userID);
 	}
 	public int hashCode() {
-		return this.userID.hashCode();
+		return Objects.hash(this.userID);
+	}
+	public boolean checkPassword(String password) throws IOException{
+		while(true) {
+			if(this.getPassword().equals(password)) {
+				System.out.println("Hello!" + this.firstName + " " + this.lastName);
+				return true;
+			}
+			else {
+				BufferedReader in = new BufferedReader( new InputStreamReader(System.in));
+				System.out.println("Want to try again?(write 'NO' in anycase to leave)");
+				String passwordAgain = in.readLine();
+				if (passwordAgain.equalsIgnoreCase("no")) {
+					break;
+				}
+				else {
+					if(this.getPassword().equals(passwordAgain)) {
+						System.out.println("Hello!" + this.firstName + " " + this.lastName);
+						return true;
+					}
+					else {
+						continue;
+					}
+				}
+			}
+		}
+		return false;
 	}
     public String toString() {
     	return this.firstName + " " + this.lastName + " " + this.userID;

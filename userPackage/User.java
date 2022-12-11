@@ -20,7 +20,7 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     	this.firstName = firstName;
     	this.lastName = lastName;
     	this.login = (firstName.charAt(0) + "_" + lastName).toLowerCase();
-    	this.setPassword();
+    	this.password = (firstName + lastName).toLowerCase();
     	
     }
     abstract void setUserID(); 
@@ -36,18 +36,18 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     	return this.password;
     }
     
-    private void setPassword() {
-    	System.out.print("Type for " + this.login + " user:");
-        try{
-        	BufferedReader passReader = new BufferedReader( new InputStreamReader(System.in));
-        	String password = passReader.readLine();
-        	this.password = password;
-        	System.out.println("Password is set");
-        	passReader.close();}
-        catch(IOException ioe) {
-        	System.out.println("Something is wrong!");
-        }
-    }
+//    private void setPassword() {
+//    	System.out.print("Type for " + this.login + " user:");
+//        try{
+//        	BufferedReader passReader = new BufferedReader( new InputStreamReader(System.in));
+//        	String password = passReader.readLine();
+//        	this.password = password;
+//        	System.out.println("Password is set");
+//        	passReader.close();}
+//        catch(IOException ioe) {
+//        	System.out.println("Something is wrong!");
+//        }
+//    }
     public void changePassword() {
     	System.out.print("Type old password:");
         try{
@@ -89,13 +89,13 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
 	public boolean equals(Object o) {
 		if(o == null) return false;
 		User u = (User)o;
-		return this.firstName.equals(u.firstName) && this.lastName.equals(u.lastName);
+		return this.firstName.equals(u.firstName) && this.lastName.equals(u.lastName) && this.userID.equals(u.userID);
 	}
 	public int hashCode() {
 		return this.userID.hashCode();
 	}
     public String toString() {
-    	return this.firstName + " " + this.lastName;
+    	return this.firstName + " " + this.lastName + " " + this.userID;
     }
     
 }

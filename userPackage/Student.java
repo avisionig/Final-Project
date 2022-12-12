@@ -54,9 +54,10 @@ public class Student extends User{
 	public int getYearOfEducation() {
 		return this.yearOfEducation;
 	}
-	public Mark getMarks() {
-		 return null;
+	public HashMap<Course, Mark> getCoursesAndMarks(){
+		return this.coursesAndMarks;
 	}
+	
 	public Request registerTo() throws IOException {
 		String courseID;
 		System.out.println("Choose course:");
@@ -74,7 +75,9 @@ public class Student extends User{
 				}
 				else {
 					courseID = in.readLine();
-					if (Database.findCoursebyID(courseID) != null) return new Request(courseID, this, RequestType.values()[0]);
+					if (Database.findCoursebyID(courseID) != null) {
+						return new Request(courseID, this, RequestType.values()[0]);
+						}
 				}
 			}
 		}
@@ -88,8 +91,8 @@ public class Student extends User{
 	public String toString() {
 		return super.toString() + " "+ this.faculty.name() +" year of Education " + this.yearOfEducation + " year of admission " + this.yearOfAdmission; 
 	}
-	public static void main(String[] args) {
-		Student a = new Student("Ayan", "Igali", LocalDate.now(), Faculty.FIT);
-		System.out.println(a);
+	
+	public String StudentAndMark(Course c) {
+		return this.userID + " | " + this.firstName + " " + this.lastName + " | " + this.getCoursesAndMarks().get(c);
 	}
 }

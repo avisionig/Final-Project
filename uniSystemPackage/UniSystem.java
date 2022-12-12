@@ -24,13 +24,13 @@ public class UniSystem implements Serializable{
 			int acc;
 			System.out.println("Login as:\n1.Admin\n2.Student\n3.Teacher\n4.Manager\n5.Dean\n6.Leave");
 			try{
-				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-				acc = Integer.parseInt(in.readLine());
+				BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+				acc = Integer.parseInt(input.readLine());
 				if (acc == 1) {
-					System.out.println("Hello " + Admin.adminning().toString());
+					System.out.println("Hello admin");
 					while(exit == false) {
 						System.out.println("What to do?\n1.Add user\n2.Check logs\n3.Log out");
-						int action = Integer.parseInt(in.readLine());
+						int action = Integer.parseInt(input.readLine());
 						if (action == 1) {
 							User newUser = Admin.adminning().addUser();
 							
@@ -48,14 +48,14 @@ public class UniSystem implements Serializable{
 								}
 							}
 							else if (action == 3) {
-							exit = true;
+								exit = true;
 							}
 						}
 					}
 				else if (acc == 2) {
 					while(exit == false) {
 						System.out.println("Hello! Write login and password of Student:");
-						String loginAndPassword = in.readLine();
+						String loginAndPassword = input.readLine();
 						StringTokenizer st = new StringTokenizer(loginAndPassword);
 						Student s = Database.findStudentbyLogin(st.nextToken());
 						if (s == null) {
@@ -68,7 +68,7 @@ public class UniSystem implements Serializable{
 						}
 						while(exit == false) {
 							System.out.println("What to do?\n1.leave\n2.register to course");
-							int action = Integer.parseInt(in.readLine());
+							int action = Integer.parseInt(input.readLine());
 							if(action == 1) {
 								exit = true;
 							}
@@ -90,7 +90,7 @@ public class UniSystem implements Serializable{
 				else if (acc == 4) {
 					while(exit == false) {
 						System.out.println("Hello! Write login and password of Manager:");
-						String loginAndPassword = in.readLine();
+						String loginAndPassword = input.readLine();
 						StringTokenizer st = new StringTokenizer(loginAndPassword);
 						Manager m = Database.findManagerbyLogin(st.nextToken());
 						if(!m.checkPassword(st.nextToken())) {
@@ -98,10 +98,11 @@ public class UniSystem implements Serializable{
 							break;
 						}
 						while(exit == false) {
-							System.out.println("What to do?\n1.Check requests\n2.Create course\n3.Manage News\n4.leave");
-							int action = Integer.parseInt(in.readLine());
+							System.out.println("What to do?\n1.Check requests\n2.Create course\n3.Manage News\n4.Manage courses\n5.leave");
+							int action = Integer.parseInt(input.readLine());
+							
 							if(action == 1) {
-									
+								m.checkRequests();
 							}
 							else if(action == 2) {
 								Course c = m .createCourse();
@@ -112,10 +113,14 @@ public class UniSystem implements Serializable{
 									System.out.println("Error");
 								}
 							}
+							
 							else if(action == 3) {
 									
 							}
-							else if(action == 4) {
+							else if (action == 4) {
+								m.manageCourse();
+							}
+							else if(action == 5) {
 								exit = true;
 							}
 						}
@@ -123,11 +128,14 @@ public class UniSystem implements Serializable{
 				}
 				else if (acc == 6) {
 					System.out.print("GoodBye!");
+					input.close();
 					exit = true;
 				}
 			}
 			catch(IOException ioe) {
 				System.out.print("Bad happened");
+				ioe.printStackTrace();
+				break;
 			}
 		}
 	}

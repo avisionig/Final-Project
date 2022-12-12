@@ -49,12 +49,21 @@ public class Course implements Serializable{
 	public Course getPrerequesite() {
 		return this.prereq;
 	}
+	
 	public Vector<Teacher> getCourseTeachers(){
 		return this.teachers;
 	}
+	
+	public void viewCourseTeachers() {
+		for(Teacher t: this.teachers) {
+			System.out.println(t);
+		}
+	}
+	
 	public String getCourseID() {
 		return this.courseID;
 	}
+	
 	public String getCourseName() {
 		return this.courseName; 
 	}

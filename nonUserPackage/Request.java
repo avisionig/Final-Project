@@ -26,6 +26,9 @@ public class Request implements Serializable{
 	private void setReqID() {
 		this.reqID = "REQ0" + (this.requestType.ordinal() + 1) + reqNum;
 	}
+	public String getReqID() {
+		return this.reqID;
+	}
 	public User getRequestAuthor() {
 		return this.reqAuthor;
 	}

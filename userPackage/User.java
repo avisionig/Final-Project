@@ -16,11 +16,13 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     protected String password;
     protected String firstName;
     protected String lastName;
+    
     protected User(String firstName, String lastName){
     	this.firstName = firstName;
     	this.lastName = lastName;
     	this.login = (firstName.charAt(0) + "_" + lastName).toLowerCase();
     	this.password = (firstName + lastName).toLowerCase();
+    	if(!(this instanceof Admin))System.out.println("Login: " + this.getLogin() + " | password: " + this.getPassword());
     	
     }
     abstract void setUserID(); 
@@ -120,7 +122,7 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
 		return false;
 	}
     public String toString() {
-    	return this.firstName + " " + this.lastName + " " + this.userID;
+    	return this.userID + " | " + this.firstName + " " + this.lastName;
     }
     
 }

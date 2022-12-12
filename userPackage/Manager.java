@@ -13,10 +13,10 @@ public class Manager extends Employee{
 
 	private static final long serialVersionUID = -885431281351803814L;
 	private static int managerNum = 0;
-	protected ManagerType managerType;
-	protected Manager(String firstName, String lastName, LocalDate hireDate,ManagerType managerType) {
+//	protected ManagerType managerType;
+	protected Manager(String firstName, String lastName, LocalDate hireDate/*,ManagerType managerType*/) {
 		super(firstName, lastName, hireDate);
-		this.managerType = managerType;
+		/*this.managerType = managerType;*/
 	}
 	
 	{
@@ -35,13 +35,13 @@ public class Manager extends Employee{
 			StringTokenizer st = new StringTokenizer(courseInput);
 			System.out.println("Choose faculty:");
 			System.out.println("1." + Faculty.values()[0] + "\n2." + Faculty.values()[1]+ "\n3." + Faculty.values()[2] + "\n4." + Faculty.values()[3] + "\n5." + Faculty.values()[4]);
-			int fac = input.read();
+			int fac = Integer.parseInt(input.readLine());
 			System.out.println("Does course have prerequesite?\n1.Yes\n2.No");
-			int prereqYesOrNo = input.read();
+			int prereqYesOrNo = Integer.parseInt(input.readLine());
 			if(prereqYesOrNo == 1 ) {
 				System.out.print("Write prerequesite name:");
 				String prereqName = input.readLine();
-				Course prereq = UniSystem.findCoursebyName(prereqName);
+				Course prereq = Database.findCoursebyName(prereqName);
 				return new Course(st.nextToken(), Integer.parseInt(st.nextToken()),Faculty.values()[fac - 1], prereq);
 			}
 			else {

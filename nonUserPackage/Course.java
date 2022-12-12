@@ -18,6 +18,7 @@ public class Course implements Serializable{
 	private Vector<Teacher> teachers;
 	private int credits;
 	{
+		courseNum++;
 		teachers = new Vector<Teacher>();
 	}
 	public Course(String courseName, int credits) {
@@ -40,7 +41,13 @@ public class Course implements Serializable{
 	}
 	
 	private void setID() {
-		this.courseID = this.faculty.name() + this.credits + courseNum; 
+		this.courseID = this.faculty.name() + "0" + this.credits + courseNum; 
+	}
+	public double coursePrice() {
+		return this.credits * creditPrice;
+	}
+	public Course getPrerequesite() {
+		return this.prereq;
 	}
 	public Vector<Teacher> getCourseTeachers(){
 		return this.teachers;
@@ -63,6 +70,6 @@ public class Course implements Serializable{
 		return this.credits == c.credits && this.courseID.equals(c.getCourseID());
 	}
 	public String toString() {
-		return this.courseName + " " + this.courseID + " credits " + this.credits + this.faculty.name(); 
+		return "( " + this.courseName + " | courseID:" + this.courseID + " | credits:" + this.credits + " | Faculty:" + this.faculty.name() + ")"; 
 	}
 }

@@ -16,7 +16,6 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     protected String password;
     protected String firstName;
     protected String lastName;
-    
     protected User(String firstName, String lastName){
     	this.firstName = firstName;
     	this.lastName = lastName;
@@ -25,7 +24,6 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     	
     }
     abstract void setUserID(); 
-    
     public String getUserID() {
         return this.userID;
     }

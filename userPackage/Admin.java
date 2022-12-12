@@ -1,6 +1,7 @@
 package userPackage;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
@@ -37,12 +38,10 @@ public final class Admin extends User{
 				return new Student(st.nextToken(), st.nextToken(), LocalDate.now(), Faculty.values()[fac]);
 			}
 			else if (line == 2) {
-				
 			}
 			else if (line == 3) {
-				
+				return new Manager(st.nextToken(), st.nextToken(), LocalDate.now());
 			}
-			
 		}
 		catch(IOException ioe) {
 			

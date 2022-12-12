@@ -1,9 +1,14 @@
 package userPackage;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
-import nonUserPackage.Faculty;
-import nonUserPackage.Mark;
+import java.util.HashMap;
+
+import nonUserPackage.*;
 import nonUserPackage.StudentDegree;
+import uniSystemPackage.Database;
 
 public class Student extends User{
 	private static int studNum = 0;
@@ -13,6 +18,7 @@ public class Student extends User{
 	protected LocalDate yearOfAdmission;
 	protected double feeStudy;
 	protected StudentDegree degree;
+	protected HashMap<Course, Mark> coursesAndMarks;
 	protected Mark studMarks;
 	{
     	studNum++;
@@ -50,6 +56,29 @@ public class Student extends User{
 	}
 	public Mark getMarks() {
 		 return null;
+	}
+	public Request registerTo() throws IOException {
+		String courseID;
+		System.out.println("Choose course:");
+		Database.viewAllCourses();
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		System.out.print("Write courseID:");
+		courseID = in.readLine();
+		if (Database.findCoursebyID(courseID) != null) return new Request(courseID, this, RequestType.values()[0]);
+		else {
+			while(true) {
+				System.out.println("Incorrect course ID, try again?\1.Yes\2.No");
+				int action = Integer.parseInt(in.readLine());
+				if(action == 2) {
+					break;
+				}
+				else {
+					courseID = in.readLine();
+					if (Database.findCoursebyID(courseID) != null) return new Request(courseID, this, RequestType.values()[0]);
+				}
+			}
+		}
+		return null;
 	}
 	public boolean equals(Object o) {
 		if (!super.equals(o)) return false;

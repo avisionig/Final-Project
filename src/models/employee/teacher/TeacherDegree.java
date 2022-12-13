@@ -1,5 +1,5 @@
 package models.employee.teacher;
 
 public enum TeacherDegree {
-    SENIOR, TUTOR, PROFESSOR
+    TUTOR, LECTURER, SENIOR_LECTURER, ASSISTANT_PROFESSOR, PROFESSOR
 }

@@ -1,14 +1,17 @@
 package nonUserPackage;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 import java.util.Objects;
 
 public class Book {
     private String bookId, name, author;
-    private Date publishDate;
-
-    public Book(String bookId, String name, String author, Date publishDate) {
-        this.bookId = bookId;
+    private LocalDate publishDate;
+    private static int bookNum = 0;
+    {
+    	bookNum++;
+    }
+    public Book( String name, String author, LocalDate publishDate) {
         this.name = name;
         this.author = author;
         this.publishDate = publishDate;
@@ -19,33 +22,22 @@ public class Book {
     }
 
     public void setBookId(String bookId) {
-        this.bookId = bookId;
+        this.bookId = "BOOK0" + bookNum;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public Date getPublishDate() {
+    public LocalDate getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(Date publishDate) {
-        this.publishDate = publishDate;
-    }
-    
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;

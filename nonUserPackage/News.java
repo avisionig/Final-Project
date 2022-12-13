@@ -1,13 +1,16 @@
 package nonUserPackage;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 public class News {
     private String newsId, title, description;
-    private Date postDate;
-
-    public News(String newsId, String title, String description, Date postDate) {
-        this.newsId = newsId;
+    private LocalDate postDate;
+    private static int newsNum = 0;
+    {
+    	newsNum++;
+    }
+    public News( String title, String description, LocalDate postDate) {
         this.title = title;
         this.description = description;
         this.postDate = postDate;
@@ -18,7 +21,7 @@ public class News {
     }
 
     public void setNewsId(String newsId) {
-        this.newsId = newsId;
+        this.newsId = "NEWS" + this.postDate + "0" + newsNum;
     }
 
     public String getTitle() {
@@ -37,13 +40,10 @@ public class News {
         this.description = description;
     }
     
-    public Date getPostDate() {
+    public LocalDate getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(Date postDate) {
-        this.postDate = postDate;
-    }
 
     @Override
     public String toString() {

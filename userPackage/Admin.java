@@ -38,7 +38,7 @@ public final class Admin extends User{
 				return new Student(st.nextToken(), st.nextToken(), LocalDate.now(), Faculty.values()[fac - 1]);
 			}
 			else if (line == 2) {
-				return new Manager(st.nextToken(), st.nextToken(), LocalDate.now());
+				return new Teacher(st.nextToken(), st.nextToken(), LocalDate.now());
 			}
 			else if (line == 3) {
 				return new Manager(st.nextToken(), st.nextToken(), LocalDate.now());

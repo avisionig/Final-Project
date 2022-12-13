@@ -25,5 +25,15 @@ public abstract class Employee extends User{
 	public void sendMessage(String userID){
 		
 	}
-
+	public boolean equals(Object o) {
+		super.equals(o);
+		if (o == null) {
+			return false;
+		}
+		if (!(o instanceof Employee)) {
+			return false;
+		}
+		Employee e = (Employee)o;
+		return this.hireDate.equals(e.hireDate);
+	}
 }

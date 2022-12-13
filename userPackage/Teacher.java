@@ -39,7 +39,6 @@ public class Teacher extends Employee{
 		else {
 			System.out.println("You don't have such course");
 		}
-		in.close();
 	}
 	
 	public void putMark() throws IOException {
@@ -58,10 +57,16 @@ public class Teacher extends Employee{
 		else {
 			System.out.println("You don't have such course");
 		}
-		in.close();
 	}
 	public String toString() {
 		return super.toString();
 	}
-	
+//	public boolean equals(Object o) {
+//		super.equals(o);
+//
+//	}
+	public static void main(String[] args) {
+		Teacher t = new Teacher("M", "Y", LocalDate.now());
+		System.out.println(t);
+	}
 }

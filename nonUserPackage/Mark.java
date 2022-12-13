@@ -26,19 +26,19 @@ public class Mark implements Serializable{
 		this.courseID = course;
 	}
 	public void setMark(double point) {
-		if(!this.firstClosed) {
+		if(this.firstClosed) {
 			this.firstAttestation += point;
 		}
-		else if(!this.secondClosed) {
+		else if(this.secondClosed) {
 			this.secondAttestation += point;
 		}
-		else if(!this.finalClosed){
+		else if(this.finalClosed){
 			this.finalPoints += point;
 		}
 	}
 	public void closeAttestaion() {
 		if(this.firstClosed) {
-			this.finalClosed = false;
+			this.firstClosed = false;
 		}
 		else if (this.secondClosed) {
 			this.secondClosed = false;
@@ -46,6 +46,12 @@ public class Mark implements Serializable{
 		else if(this.finalClosed) {
 			this.finalClosed = false;
 		}
+	}
+	public boolean equals(Object o) {
+		if (o == null) return false;
+		if (!(o instanceof Mark)) return false;
+		Mark m = (Mark)o;
+		return this.firstAttestation == m.firstAttestation && this.secondAttestation == m.secondAttestation && this.finalPoints == m.finalPoints && this.courseID.equals(m.courseID) && this.teacherID.equals(m.teacherID) && this.studentID.equals(m.studentID);
 	}
 	public String toString() {
 		return this.firstAttestation + " " + this.secondAttestation + " " + this.finalPoints;

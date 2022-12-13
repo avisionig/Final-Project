@@ -22,6 +22,7 @@ public class Student extends User{
 	protected Mark studMarks;
 	{
     	studNum++;
+    	coursesAndMarks = new HashMap<Course,Mark>();
     }
 	protected Student(String firstName, String lastName, LocalDate yearOfAdmission,Faculty faculty) {
 		super(firstName, lastName);

@@ -17,6 +17,7 @@ public class Manager extends Employee{
 //	protected ManagerType managerType;
 	protected Manager(String firstName, String lastName, LocalDate hireDate/*,ManagerType managerType*/) {
 		super(firstName, lastName, hireDate);
+		this.setUserID();
 		/*this.managerType = managerType;*/
 	}
 	
@@ -93,7 +94,7 @@ public class Manager extends Employee{
 		System.out.println("1.Set teacher\n2.Delete teacher");
 		int action = Integer.parseInt(in.readLine());
 		if(action == 1) {
-			System.out.print("Write teacher ID: ");
+			System.out.print("Write teacher ID:");
 			String teacherID = in.readLine();
 			c.getCourseTeachers().add(Database.findTeacherByID(teacherID));
 			System.out.print("Teacher added");

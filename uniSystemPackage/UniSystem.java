@@ -10,9 +10,8 @@ import java.util.StringTokenizer;
 import nonUserPackage.*;
 import userPackage.*;
 
-public class UniSystem implements Serializable{
+public class UniSystem {
 
-	private static final long serialVersionUID = -4945903509392417238L;
 	protected String systemName;
 	public UniSystem(String systemName) {
 		this.systemName = systemName;
@@ -22,6 +21,7 @@ public class UniSystem implements Serializable{
 		while(true) {
 			boolean exit = false;
 			int acc;
+			Database db = Database.accessDB();
 			System.out.println("Login as:\n1.Admin\n2.Student\n3.Teacher\n4.Manager\n5.Dean\n6.Leave");
 			try{
 				BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
@@ -29,7 +29,7 @@ public class UniSystem implements Serializable{
 				if (acc == 1) {
 					System.out.println("Hello admin");
 					while(exit == false) {
-						System.out.println("What to do?\n1.Add user\n2.Check logs\n3.Log out");
+						System.out.println("What to do?\n1.Add user\n2.View users\n3.Log out");
 						int action = Integer.parseInt(input.readLine());
 						if (action == 1) {
 							User newUser = Admin.adminning().addUser();
@@ -47,7 +47,10 @@ public class UniSystem implements Serializable{
 								System.out.println("Error! Null user.");
 								}
 							}
-							else if (action == 3) {
+						else if(action == 2) {
+							Database.viewAllUsers();
+						}
+						else if (action == 3) {
 								exit = true;
 							}
 						}
@@ -85,7 +88,31 @@ public class UniSystem implements Serializable{
 					}
 				}
 				else if(acc == 3) {
-					
+					while(exit == false) {
+						System.out.println("Hello! Write login and password of Teacher:");
+						String loginAndPassword = input.readLine();
+						StringTokenizer st = new StringTokenizer(loginAndPassword);
+						Teacher t = Database.findTeacherByLogin(st.nextToken());
+						if(!t.checkPassword(st.nextToken())) {
+							System.out.println("Not this time(");
+							break;
+						}
+						while(exit == false) {
+							System.out.println("What to do?\n1.Put mark\n2.Close attestation\n3.leave");
+							int action = Integer.parseInt(input.readLine());
+							
+							if(action == 1) {
+								t.putMark();
+							}
+							else if(action == 2) {
+								t.closeAttestaion();
+							}
+							
+							else if(action == 3) {
+								exit = true;
+							}
+						}
+					}
 				}
 				else if (acc == 4) {
 					while(exit == false) {
@@ -128,13 +155,14 @@ public class UniSystem implements Serializable{
 				}
 				else if (acc == 6) {
 					System.out.print("GoodBye!");
-					input.close();
-					exit = true;
+					Database.saveDatabase();
+					break;
 				}
 			}
 			catch(IOException ioe) {
 				System.out.print("Bad happened");
 				ioe.printStackTrace();
+				Database.saveDatabase();
 				break;
 			}
 		}

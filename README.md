@@ -1,5 +1,5 @@
 # Team members of Final Project OOP
 * Igali Ayan Amanzhanuly (Team Leader) 👑 
-* Akhtanov Amir Ardakovic 🐯
+* Akhtanov Amir Ardakovich 🐯
 * Bisenov Dinmukhamed Aidaruly 🔥
 * Samatuly Serikbolsyn ⚡

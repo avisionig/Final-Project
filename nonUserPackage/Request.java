@@ -11,10 +11,6 @@ public class Request implements Serializable{
 	protected String description;
 	protected User reqAuthor;
 	protected RequestType requestType;
-	private static int reqNum = 0;
-	{
-		reqNum++;
-	}
 	
 	public Request(String description, User reqAuthor, RequestType requestType) {
 		this.description = description;
@@ -24,7 +20,7 @@ public class Request implements Serializable{
 	}
 	
 	private void setReqID() {
-		this.reqID = "REQ0" + (this.requestType.ordinal() + 1) + reqNum;
+		this.reqID = "REQ0" + (this.requestType.ordinal() + 1) + String.valueOf(Math.random()*100+23);
 	}
 	public String getReqID() {
 		return this.reqID;

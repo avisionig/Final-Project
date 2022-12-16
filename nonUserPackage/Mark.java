@@ -2,65 +2,48 @@ package nonUserPackage;
 
 import java.io.Serializable;
 
-import uniSystemPackage.Database;
 
 public class Mark implements Serializable{
 
 	private static final long serialVersionUID = 2041843948330859866L;
 	
-	protected String teacherID;
-	protected String studentID;
-	protected String courseID;
-	private double firstAttestation = 0;
-	private boolean firstClosed = true;
-	private double secondAttestation = 0;
-	private boolean secondClosed = true;
-	private double finalPoints = 0;
-	private boolean finalClosed = true;
-	{
-		Database.getMarks().add(this);
-	}
-	public Mark(String stud, String teach, String course) {
-		this.studentID = stud;
-		this.teacherID = teach;
-		this.courseID = course;
+	
+	private Attestaion first;
+	private Attestaion second;
+	private FinalAttestaion finalAtt;
+	public Mark() {
+		
 	}
 	public void setMark(double point) {
-		if(this.firstClosed) {
-			this.firstAttestation += point;
+		if(this.first.getStatus()) {
+			this.first.putPoint(point);
 		}
-		else if(this.secondClosed) {
-			this.secondAttestation += point;
+		else if(this.second.getStatus()) {
+			this.second.putPoint(point);
 		}
-		else if(this.finalClosed){
-			this.finalPoints += point;
+		else if(this.finalAtt.getStatus()){
+			this.finalAtt.putPoint(point);
 		}
 	}
 	public void closeAttestaion() {
-		if(this.firstClosed) {
-			this.firstClosed = false;
+		if(this.first.getStatus()) {
+			this.first.changeStatus();
 		}
-		else if (this.secondClosed) {
-			this.secondClosed = false;
+		else if (this.second.getStatus()) {
+			this.second.changeStatus();
 		}
-		else if(this.finalClosed) {
-			this.finalClosed = false;
+		else if(this.finalAtt.getStatus()) {
+			this.finalAtt.changeStatus();
 		}
 	}
 	public boolean equals(Object o) {
 		if (o == null) return false;
 		if (!(o instanceof Mark)) return false;
 		Mark m = (Mark)o;
-		return this.firstAttestation == m.firstAttestation && this.secondAttestation == m.secondAttestation && this.finalPoints == m.finalPoints && this.courseID.equals(m.courseID) && this.teacherID.equals(m.teacherID) && this.studentID.equals(m.studentID);
+		return this.first.getPoint() == m.first.getPoint() && this.second.getPoint() == m.second.getPoint() && this.finalAtt.getPoint() == m.finalAtt.getPoint(); 
 	}
 	public String toString() {
-		return this.firstAttestation + " " + this.secondAttestation + " " + this.finalPoints;
-	}
-	public String getTeacherID() {
-		return this.teacherID;
-	}
-	public String getCourseID() {
-		return this.courseID;
+		return this.first.getPoint() + " | " + this.second.getPoint() + " | " + this.finalAtt.getPoint();
 	}
 
 }

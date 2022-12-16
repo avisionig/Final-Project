@@ -1,16 +1,15 @@
 package nonUserPackage;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import java.util.Objects;
 
-public class Book {
-    private String bookId, name, author;
+public class Book implements Serializable{
+   
+	private static final long serialVersionUID = 2942921656208602622L;
+	private String bookId, name, author;
     private LocalDate publishDate;
-    private static int bookNum = 0;
-    {
-    	bookNum++;
-    }
     public Book( String name, String author, LocalDate publishDate) {
         this.name = name;
         this.author = author;
@@ -22,7 +21,7 @@ public class Book {
     }
 
     public void setBookId(String bookId) {
-        this.bookId = "BOOK0" + bookNum;
+        this.bookId = "BOOK0" + String.valueOf(Math.random()*100+69);
     }
 
     public String getName() {

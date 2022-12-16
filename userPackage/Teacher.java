@@ -11,18 +11,14 @@ import uniSystemPackage.Database;
 public class Teacher extends Employee{
 	
 	private static final long serialVersionUID = 1051055956846350581L;
-	private static int teacherNum = 0;
 	protected Teacher(String firstName, String lastName, LocalDate hireDate) {
 		super(firstName, lastName, hireDate);
 		this.setUserID();
 	}
-	
-	{
-		teacherNum++;
-	}
+
 
 	protected void setUserID() {
-		this.userID = String.valueOf(this.hireDate.getYear() - 2000) + "TEACH0" +String.valueOf(teacherNum);
+		this.userID = String.valueOf(this.hireDate.getYear() - 2000) + "TEACH0" +String.valueOf(Math.random()*1000+78);
 	}
 	public void closeAttestaion() throws IOException {
 		System.out.println("Choose course by ID");
@@ -30,11 +26,11 @@ public class Teacher extends Employee{
 		String courseID = in.readLine();
 		Course c = Database.findCoursebyID(courseID);
 		if(c.getCourseTeachers().contains(this)) {
-			for(Mark m : Database.getMarks()) {
-				if(m.getCourseID().equalsIgnoreCase(courseID) && m.getTeacherID().equalsIgnoreCase(this.userID)) {
-					m.closeAttestaion();
-				}
-			}
+//			for(Mark m : Database.getMarks()) {
+//				if(m.getCourseID().equalsIgnoreCase(courseID) && m.getTeacherID().equalsIgnoreCase(this.userID)) {
+//					m.closeAttestaion();
+//				}
+//			}
 		}
 		else {
 			System.out.println("You don't have such course");

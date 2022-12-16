@@ -2,9 +2,9 @@ package uniSystemPackage;
 import java.io.BufferedReader;
 
 
+
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.util.StringTokenizer;
 
 import nonUserPackage.*;
@@ -21,7 +21,7 @@ public class UniSystem {
 		while(true) {
 			boolean exit = false;
 			int acc;
-			Database db = Database.accessDB();
+			Database.accessDB();
 			System.out.println("Login as:\n1.Admin\n2.Student\n3.Teacher\n4.Manager\n5.Dean\n6.Leave");
 			try{
 				BufferedReader input = new BufferedReader(new InputStreamReader(System.in));

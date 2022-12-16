@@ -13,7 +13,6 @@ import uniSystemPackage.*;
 public class Manager extends Employee{
 
 	private static final long serialVersionUID = -885431281351803814L;
-	private static int managerNum = 0;
 //	protected ManagerType managerType;
 	protected Manager(String firstName, String lastName, LocalDate hireDate/*,ManagerType managerType*/) {
 		super(firstName, lastName, hireDate);
@@ -21,12 +20,8 @@ public class Manager extends Employee{
 		/*this.managerType = managerType;*/
 	}
 	
-	{
-		managerNum++;
-	}
-
 	protected void setUserID() {
-		this.userID = String.valueOf(this.hireDate.getYear() - 2000) + "MNG0" +String.valueOf(managerNum);
+		this.userID = String.valueOf(this.hireDate.getYear() - 2000) + "MNG0" +String.valueOf(Math.random()*1000+78);
 	}
 	
 	
@@ -72,8 +67,8 @@ public class Manager extends Employee{
 			Course c = Database.findCoursebyID(r.getDesctiption());
 			System.out.println("Which teacher:");
 			c.viewCourseTeachers();
-			String teacherID = in.readLine();
-			s.getCoursesAndMarks().put(c, new Mark(s.getUserID(), teacherID, c.getCourseID()));
+//			String teacherID = in.readLine();
+			s.getCoursesAndMarks().put(c, new Mark());
 			Database.getRequests().remove(r);
 		}
 		else {
@@ -81,8 +76,6 @@ public class Manager extends Employee{
 		}
 		
 	}
-	
-	
 	
 	
 	public void manageCourse() throws IOException {
@@ -97,13 +90,13 @@ public class Manager extends Employee{
 			System.out.print("Write teacher ID:");
 			String teacherID = in.readLine();
 			c.getCourseTeachers().add(Database.findTeacherByID(teacherID));
-			System.out.print("Teacher added");
+			System.out.println("Teacher added!");
 		}
 		else if(action == 2) {
 			System.out.print("Write teacher ID: ");
 			String teacherID = in.readLine();
 			c.getCourseTeachers().remove(Database.findTeacherByID(teacherID));
-			System.out.print("Teacher deleted");
+			System.out.println("Teacher deleted");
 		}
 	}
 

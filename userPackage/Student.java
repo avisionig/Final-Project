@@ -11,7 +11,6 @@ import nonUserPackage.StudentDegree;
 import uniSystemPackage.Database;
 
 public class Student extends User{
-	private static int studNum = 0;
 	private static final long serialVersionUID = 7227165493952096441L;
 	protected int yearOfEducation = 1;
 	protected Faculty faculty = null;
@@ -21,10 +20,9 @@ public class Student extends User{
 	protected HashMap<Course, Mark> coursesAndMarks;
 	protected Mark studMarks;
 	{
-    	studNum++;
     	coursesAndMarks = new HashMap<Course,Mark>();
     }
-	protected Student(String firstName, String lastName, LocalDate yearOfAdmission,Faculty faculty) {
+	public Student(String firstName, String lastName, LocalDate yearOfAdmission,Faculty faculty) {
 		super(firstName, lastName);
 		this.yearOfAdmission = yearOfAdmission;
 		this.faculty = faculty;
@@ -32,7 +30,7 @@ public class Student extends User{
 		
 	}
 	protected void setUserID() {
-		this.userID = String.valueOf(this.yearOfAdmission.getYear() - 2000) + "STUD0" + String.valueOf(this.faculty.ordinal() + 1) +String.valueOf(studNum);
+		this.userID = String.valueOf(this.yearOfAdmission.getYear() - 2000) + "STUD0" + String.valueOf(this.faculty.ordinal() + 1) +String.valueOf((int)(Math.random()*1000+78));
 	}
 	public Faculty getFaculty() {
 		return this.faculty;

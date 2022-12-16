@@ -1,15 +1,13 @@
 package nonUserPackage;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 
-public class News {
-    private String newsId, title, description;
+public class News implements Serializable{
+	private static final long serialVersionUID = -4521726234280720616L;
+	private String newsId, title, description;
     private LocalDate postDate;
-    private static int newsNum = 0;
-    {
-    	newsNum++;
-    }
     public News( String title, String description, LocalDate postDate) {
         this.title = title;
         this.description = description;
@@ -21,7 +19,7 @@ public class News {
     }
 
     public void setNewsId(String newsId) {
-        this.newsId = "NEWS" + this.postDate + "0" + newsNum;
+        this.newsId = "NEWS" + this.postDate + "0" + String.valueOf(Math.random()*100+69);
     }
 
     public String getTitle() {

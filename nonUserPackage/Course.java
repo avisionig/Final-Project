@@ -10,7 +10,6 @@ public class Course implements Serializable{
 	
 	private static final long serialVersionUID = -3566405900025536509L;
 	private static double creditPrice = 40000.0;
-	private static int courseNum = 0;
 	private String courseID;
 	private Course prereq;
 	private String courseName;
@@ -18,7 +17,6 @@ public class Course implements Serializable{
 	private Vector<Teacher> teachers;
 	private int credits;
 	{
-		courseNum++;
 		teachers = new Vector<Teacher>();
 	}
 	public Course(String courseName, int credits) {
@@ -41,7 +39,7 @@ public class Course implements Serializable{
 	}
 	
 	private void setID() {
-		this.courseID = this.faculty.name() + "0" + this.credits + courseNum; 
+		this.courseID = this.faculty.name() + "0" + this.credits +String.valueOf(Math.random()*100+69); 
 	}
 	public double coursePrice() {
 		return this.credits * creditPrice;

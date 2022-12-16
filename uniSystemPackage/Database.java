@@ -1,25 +1,31 @@
 package uniSystemPackage;
 
+
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
+import java.time.LocalDate;
 import java.util.Vector;
 
 import nonUserPackage.*;
 import userPackage.*;
 
+@SuppressWarnings("unchecked")
 public class Database implements Serializable{
 
 	private static final long serialVersionUID = 1293761087682124070L;
 	private static Database db;
 	
-	protected String databaseName = "database";
+	protected String databaseName = "dataBase";
+	
+	private static Vector<Object> all;
 	protected static Vector<Student> allStudents;
 	protected static Vector<Teacher> allTeachers;
 	protected static Vector<Course> allCourses;
@@ -27,22 +33,8 @@ public class Database implements Serializable{
 	protected static Vector<Book> allBooks;
 	protected static Vector<Manager> allManagers;
 	protected static Vector<Request> allRequests;
-	protected static Vector<Mark> allMarks;
 	
 	static{
-//		if(new File("database.txt").exists()) {
-//			try {
-//				System.out.println("Chop!");
-//				db = readDatabase();
-//			}
-//			catch(Exception e) {
-//				System.out.println("Database not found");
-//			}
-//		}
-//		else {
-			System.out.println("Opp!");
-			db = new Database();
-			allMarks = new Vector<Mark>();
 			allStudents = new Vector<Student>();
 			allTeachers = new Vector<Teacher>();
 			allCourses = new Vector<Course>();
@@ -50,8 +42,25 @@ public class Database implements Serializable{
 			allBooks = new Vector<Book>();
 			allManagers = new Vector<Manager>();
 			allRequests = new  Vector<Request>();
-//		}
+			System.out.println("Chop!");
+		File databaseFile = new File("C:\\Users\\ayan\\eclipse-workspace\\FinalProject\\database.txt");
+		if(databaseFile.exists()) {
+			try {
+				all = readDatabase();
+				allStudents = (Vector<Student>) all.elementAt(0);
+				allTeachers = (Vector<Teacher>) all.elementAt(1);
+				allManagers = (Vector<Manager>) all.elementAt(2);
+				allCourses = (Vector<Course>) all.elementAt(3);
+				allNews = (Vector<News>) all.elementAt(4);
+				allBooks = (Vector<Book>) all.elementAt(5);
+				allRequests = (Vector<Request>) all.elementAt(6);
+			}	
+			catch(Exception e) {
+				System.out.println("Database not found");
+			}
+		}
 	}
+
 	public static Database accessDB() {
 		return db;
 	}
@@ -175,29 +184,25 @@ public class Database implements Serializable{
 		}
 	}
 
-	public static Vector<Mark> getMarks(){
-		return Database.allMarks;
-	}
 	public static Vector<Request> getRequests(){
 		return Database.allRequests;
 	}
 	
-	private static Database readDatabase() {
+	private static Vector<Object> readDatabase() {
 			try {
-				FileInputStream fis = new FileInputStream("database.txt");
+				FileInputStream fis = new FileInputStream("C:\\Users\\ayan\\eclipse-workspace\\FinalProject\\database.txt");
 				ObjectInputStream ois = new ObjectInputStream(fis);
-				Database readbase = (Database)ois.readObject();
+				@SuppressWarnings("unchecked")
+				Vector<Object> readbase = (Vector<Object>)ois.readObject();
 				fis.close();
 				ois.close();
+				System.out.println("readed!");
 				return readbase;
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			System.out.println("Not found");
@@ -205,18 +210,32 @@ public class Database implements Serializable{
 
 	}
 	public static void saveDatabase() {
+		all = new Vector<Object>();
+		all.add(allStudents);
+		all.add(allTeachers);
+		all.add(allManagers);
+		all.add(allCourses);
+		all.add(allNews);
+		all.add(allBooks);
+		all.add(allRequests);
 		FileOutputStream fos;
 		ObjectOutputStream oos;
 		try {
-			fos = new FileOutputStream("database.txt");
+			fos = new FileOutputStream("C:\\Users\\ayan\\eclipse-workspace\\FinalProject\\database.txt");
 			oos = new ObjectOutputStream(fos);
-			oos.writeObject(Database.accessDB());
+			oos.writeObject(all);
 			fos.close();
 			oos.close();
+			System.out.println("saved!");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	public static void main(String args[]) {
+		Database.accessDB();
+		Database.allStudents.add(new Student("Ayan", "Igali", LocalDate.now(), Faculty.FIT));
+		Database.saveDatabase();
 	}
 }

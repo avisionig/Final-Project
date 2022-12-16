@@ -30,5 +30,20 @@ public class Dean extends Employee{
 	protected void setUserID() {
 		this.userID = "DEAN0" + this.faculty.name();
 	}
-
+	
+	public int hashCode() {
+		return super.hashCode();
+	}
+	
+	public int compareTo(Dean o) {
+		return super.compareTo(o);
+	}
+	
+	public boolean equals(Dean o) {
+		return super.equals(o);
+	}
+	
+	public String toString() {
+		return super.toString() + ' ' + faculty;
+	}
 }

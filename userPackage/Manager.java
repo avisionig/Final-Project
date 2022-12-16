@@ -99,5 +99,20 @@ public class Manager extends Employee{
 			System.out.println("Teacher deleted");
 		}
 	}
+	
+	public String toString() {
+		return super.toString();
+	}
+	
+	public boolean equals(Object o) {
+		return super.equals(o);
+	}
+	
+	public int compareTo(Manager o) {
+		return super.compareTo(o);
+	}
+	public int hashCode() {
+		return super.hashCode();
+	}
 
 }

@@ -36,4 +36,16 @@ public abstract class Employee extends User{
 		Employee e = (Employee)o;
 		return this.hireDate.equals(e.hireDate);
 	}
+	
+	public int hashCode() {
+		return super.hashCode();
+	}
+	
+	public int compareTo(Employee o) {
+		return super.compareTo(o);
+	}
+	
+	public String toString() {
+		return super.toString() + " " + getHireDate() +" " +  getSalary(); 
+	}
 }

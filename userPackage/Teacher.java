@@ -57,10 +57,24 @@ public class Teacher extends Employee{
 	public String toString() {
 		return super.toString();
 	}
+	
 //	public boolean equals(Object o) {
 //		super.equals(o);
 //
 //	}
+	
+	public int hashCode() {
+		return super.hashCode();
+	}
+	
+	public int compareTo(Teacher o) {
+		return super.compareTo(o);
+	}
+	
+	public boolean equals(Teacher o) {
+		return super.equals(o);
+	}
+	
 	public static void main(String[] args) {
 		Teacher t = new Teacher("M", "Y", LocalDate.now());
 		System.out.println(t);

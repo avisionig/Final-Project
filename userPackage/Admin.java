@@ -49,4 +49,7 @@ public final class Admin extends User{
 		}
 		return null;
 	}
+	public String toString() {
+    	return super.toString() + " " + serialVersionUID;
+    }
 }

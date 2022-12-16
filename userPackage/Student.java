@@ -91,6 +91,13 @@ public class Student extends User{
 		return super.toString() + " "+ this.faculty.name() +" year of Education " + this.yearOfEducation + " year of admission " + this.yearOfAdmission; 
 	}
 	
+	public int hashCode() {
+		return super.hashCode();
+	}
+	
+	public int compareTo(Student o) {
+		return super.compareTo(o);
+	}
 	public String StudentAndMark(Course c) {
 		return this.userID + " | " + this.firstName + " " + this.lastName + " | " + this.getCoursesAndMarks().get(c);
 	}

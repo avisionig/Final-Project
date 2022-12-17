@@ -8,11 +8,19 @@ public class Lesson implements Serializable{
 	protected Time timeOfLesson;
 	protected Teacher lessonTeacher;
 	protected Course courseLesson;
+	protected int room;
 	
-	public Lesson (Time timeOfLesson, Teacher lessonTeacher, Course courseLesson) {
+	public Lesson (Time timeOfLesson, Teacher lessonTeacher, Course courseLesson, int room) {
 		this.timeOfLesson = timeOfLesson;
 		this.lessonTeacher = lessonTeacher;
 		this.courseLesson = courseLesson;
+		this.room = room;
+	}
+	public int getRoom() {
+		return this.room;
+	}
+	public void setRoom(int room) {
+		this.room = room;
 	}
 	public Course getLessonCourse() {
 		return this.courseLesson;
@@ -27,10 +35,9 @@ public class Lesson implements Serializable{
 	public boolean equals(Object o) {
 		if(o == null) return false;
 		Lesson l = (Lesson) o;
-		return this.timeOfLesson.equals(l.timeOfLesson) && this.lessonTeacher.equals(l.lessonTeacher) && this.courseLesson.equals(l.courseLesson);
+		return this.room == l.room && this.timeOfLesson.equals(l.timeOfLesson);
 	}
-	
 	public String toString() {
-		return this.courseLesson.getCourseName()+ " | " + this.lessonTeacher.getFirstName() + " " + this.lessonTeacher.getLastName() + " | " + this.timeOfLesson + ")";
+		return "(" + this.courseLesson.getCourseName()+ " | " + this.lessonTeacher.getFirstName() + " " + this.lessonTeacher.getLastName() + " | time: " + this.timeOfLesson + " | room: " + this.room +")";
 	}
 }

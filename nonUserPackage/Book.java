@@ -21,7 +21,7 @@ public class Book implements Serializable{
     }
 
     public void setBookId(String bookId) {
-        this.bookId = "BOOK0" + String.valueOf(Math.random()*100+69);
+        this.bookId = "BOOK0" + String.valueOf((int)(Math.random()*100+69));
     }
 
     public String getName() {
@@ -52,6 +52,6 @@ public class Book implements Serializable{
     
     public String toString() {
     	return "(" + "ID: " + getBookId() + " | " + "Name: " + getName() + " | " +
-    			"Author: " + getAuthor() + " | " + "Published date: " + getPublishDate();
+    			"Author: " + getAuthor() + " | " + "Published date: " + getPublishDate() + ")";
     }
 }

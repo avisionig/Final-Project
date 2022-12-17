@@ -150,7 +150,7 @@ public class Database implements Serializable{
 		Teacher t = Database.findTeacherByID(teacherID);
 		if (c != null && t != null) for(Student s : allStudents) {
 			if(s.getCoursesAndMarks().keySet().contains(c) && c.getCourseTeachers().contains(t)) {
-				System.out.println(s.StudentAndMark(c));
+				System.out.println(s.viewStudentAndMark(c));
 			}
 		}
 	}
@@ -187,7 +187,15 @@ public class Database implements Serializable{
 	public static Vector<Request> getRequests(){
 		return Database.allRequests;
 	}
-	
+	public static Vector<Teacher> getTeachers(){
+		return Database.allTeachers;
+	}
+	public static Vector<Course> getCourses(){
+		return Database.allCourses;
+	}
+	public static Vector<Student> getStudents(){
+		return Database.allStudents;
+	}
 	private static Vector<Object> readDatabase() {
 			try {
 				FileInputStream fis = new FileInputStream("C:\\Users\\ayan\\eclipse-workspace\\FinalProject\\database.txt");
@@ -232,10 +240,5 @@ public class Database implements Serializable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	public static void main(String args[]) {
-		Database.accessDB();
-		Database.allStudents.add(new Student("Ayan", "Igali", LocalDate.now(), Faculty.FIT));
-		Database.saveDatabase();
 	}
 }

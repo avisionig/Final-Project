@@ -9,16 +9,24 @@ import nonUserPackage.*;
 import uniSystemPackage.Database;
 
 public class Teacher extends Employee{
-	
+	protected Schedule teacherSchedule;
 	private static final long serialVersionUID = 1051055956846350581L;
-	protected Teacher(String firstName, String lastName, LocalDate hireDate) {
+	{
+		teacherSchedule = new Schedule();
+	}
+	public Teacher(String firstName, String lastName, LocalDate hireDate) {
 		super(firstName, lastName, hireDate);
 		this.setUserID();
 	}
 
-
+	public Schedule getSchedule() {
+		return this.teacherSchedule;
+	}
+	public void viewSchedule() {
+		System.out.println(this.teacherSchedule);
+	}
 	protected void setUserID() {
-		this.userID = String.valueOf(this.hireDate.getYear() - 2000) + "TEACH0" +String.valueOf(Math.random()*1000+78);
+		this.userID = String.valueOf(this.hireDate.getYear() - 2000) + "TEACH0" +String.valueOf((int)(Math.random()*1000+78));
 	}
 	public void closeAttestaion() throws IOException {
 		System.out.println("Choose course by ID");
@@ -26,11 +34,11 @@ public class Teacher extends Employee{
 		String courseID = in.readLine();
 		Course c = Database.findCoursebyID(courseID);
 		if(c.getCourseTeachers().contains(this)) {
-//			for(Mark m : Database.getMarks()) {
-//				if(m.getCourseID().equalsIgnoreCase(courseID) && m.getTeacherID().equalsIgnoreCase(this.userID)) {
-//					m.closeAttestaion();
-//				}
-//			}
+			for(Student s : Database.getStudents()) {
+				if(s.getSchedule().findLessonByTeacher(this) != null) {
+					s.getCoursesAndMarks().get(c).closeAttestaion();
+				}
+			}
 		}
 		else {
 			System.out.println("You don't have such course");
@@ -58,10 +66,9 @@ public class Teacher extends Employee{
 		return super.toString();
 	}
 	
-//	public boolean equals(Object o) {
-//		super.equals(o);
-//
-//	}
+	public boolean equals(Object o) {
+		return super.equals(o);
+	}
 	
 	public int hashCode() {
 		return super.hashCode();
@@ -71,12 +78,5 @@ public class Teacher extends Employee{
 		return super.compareTo(o);
 	}
 	
-	public boolean equals(Teacher o) {
-		return super.equals(o);
-	}
 	
-	public static void main(String[] args) {
-		Teacher t = new Teacher("M", "Y", LocalDate.now());
-		System.out.println(t);
-	}
 }

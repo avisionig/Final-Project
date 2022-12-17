@@ -39,7 +39,7 @@ public class Course implements Serializable{
 	}
 	
 	private void setID() {
-		this.courseID = this.faculty.name() + "0" + this.credits +String.valueOf(Math.random()*100+69); 
+		this.courseID = this.faculty.name() + "0" + this.credits +String.valueOf((int)(Math.random()*100+69)); 
 	}
 	public double coursePrice() {
 		return this.credits * creditPrice;

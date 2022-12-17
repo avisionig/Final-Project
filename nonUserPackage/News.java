@@ -19,7 +19,7 @@ public class News implements Serializable{
     }
 
     public void setNewsId(String newsId) {
-        this.newsId = "NEWS" + this.postDate + "0" + String.valueOf(Math.random()*100+69);
+        this.newsId = "NEWS" + this.postDate + "0" + String.valueOf((int)(Math.random()*100+69));
     }
 
     public String getTitle() {

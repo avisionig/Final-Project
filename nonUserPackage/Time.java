@@ -7,13 +7,13 @@ public class Time implements Serializable{
 
 	private static final long serialVersionUID = 5522472545885085573L;
 	protected int startHour;
-	protected float duration;
+	protected double duration;
 	protected int startMin;
 	protected DayOfWeek dayOfWeek;
 	protected int endHour;
 	protected int endMin;
 	
-	public Time(int startHour, int startMin, float duration, DayOfWeek dayOfWeek) {
+	public Time(int startHour, int startMin, double duration, DayOfWeek dayOfWeek) {
 		this.startMin = startMin;
 		this.startHour = startHour;
 		this.duration = duration;
@@ -24,12 +24,17 @@ public class Time implements Serializable{
 	private void calculcateEndTime() {
 		this.endHour = (int)this.duration + this.startHour;
 		this.endMin = (int) (this.startMin + (60 * (this.duration - Math.floor(this.duration))));
-		if(this.endMin > 60) {
+		if(this.endMin >= 60) {
 			this.endMin -= 60;
 			this.endHour += 1;
 		}
 	}
-	
+	private String zeroCorrector(int num) {
+		if(num < 10) {
+			return "0" + num;
+		}
+		return String.valueOf(num);
+	}
 	public int getStartHour() {
 		return this.startHour;
 	}
@@ -45,11 +50,11 @@ public class Time implements Serializable{
 	public DayOfWeek getDayOfWeek() {
 		return this.dayOfWeek;
 	}
-	public float getDuratuin() {
+	public double getDuratuin() {
 		return this.duration;
 	}
 	public String toString() {
-		return this.startHour+ ":"+this.startMin;
+		return this.zeroCorrector(startHour)+ ":" + this.zeroCorrector(startMin) + " | " + this.zeroCorrector(endHour)+ ":"+ this.zeroCorrector(endMin);
 	}
 	public boolean equals(Object o) {//you have to pass Object here, to be discussed later. 
 		//this is our basic version

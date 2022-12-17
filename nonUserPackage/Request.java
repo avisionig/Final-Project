@@ -12,15 +12,14 @@ public class Request implements Serializable{
 	protected User reqAuthor;
 	protected RequestType requestType;
 	
-	public Request(String description, User reqAuthor, RequestType requestType) {
+	public Request(String description,User reqAuthor, RequestType requestType) {
 		this.description = description;
 		this.reqAuthor = reqAuthor;
 		this.requestType = requestType;
 		this.setReqID();
 	}
-	
 	private void setReqID() {
-		this.reqID = "REQ0" + (this.requestType.ordinal() + 1) + String.valueOf(Math.random()*100+23);
+		this.reqID = "REQ0" + (this.requestType.ordinal() + 1) + String.valueOf((int)(Math.random()*100+23));
 	}
 	public String getReqID() {
 		return this.reqID;

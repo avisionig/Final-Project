@@ -2,8 +2,10 @@ package userPackage;
 
 import java.io.BufferedReader;
 
+
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.StringTokenizer;
 
@@ -21,7 +23,7 @@ public class Manager extends Employee{
 	}
 	
 	protected void setUserID() {
-		this.userID = String.valueOf(this.hireDate.getYear() - 2000) + "MNG0" +String.valueOf(Math.random()*1000+78);
+		this.userID = String.valueOf(this.hireDate.getYear() - 2000) + "MNG0" +String.valueOf((int)(Math.random()*1000+78));
 	}
 	
 	
@@ -64,11 +66,27 @@ public class Manager extends Employee{
 		int action = Integer.parseInt(in.readLine());
 		if (action == 1) {
 			Student s = (Student) r.getRequestAuthor();
-			Course c = Database.findCoursebyID(r.getDesctiption());
-			System.out.println("Which teacher:");
-			c.viewCourseTeachers();
-//			String teacherID = in.readLine();
+			StringTokenizer st = new StringTokenizer(r.getDesctiption(), ": ");
+			Course c = Database.findCoursebyID(st.nextToken());
+			if(c == null) {
+				System.out.println("Error no such course");
+				Database.getRequests().remove(r);
+				return;
+			}
+			Teacher t = Database.findTeacherByID(st.nextToken());
+			if(t == null) {
+				System.out.println("Error no such teacher");
+				Database.getRequests().remove(r);
+				return;
+			}
+			Lesson l = t.getSchedule().findLessonByFullInfo(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Double.parseDouble(st.nextToken()), DayOfWeek.valueOf(st.nextToken())), t, c, Integer.parseInt(st.nextToken()));
+			if(l == null) {
+				System.out.println("Error no such teacher");
+				Database.getRequests().remove(r);
+				return;
+			}
 			s.getCoursesAndMarks().put(c, new Mark());
+			s.getSchedule().addLesson(l);
 			Database.getRequests().remove(r);
 		}
 		else {
@@ -84,15 +102,26 @@ public class Manager extends Employee{
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String courseID = in.readLine();
 		Course c = Database.findCoursebyID(courseID);
-		System.out.println("1.Set teacher\n2.Delete teacher");
+		System.out.println("1.Set teacher\n2.Manage lessons\n3.Delete teacher");
 		int action = Integer.parseInt(in.readLine());
 		if(action == 1) {
+			Database.viewAllTeachers();
 			System.out.print("Write teacher ID:");
 			String teacherID = in.readLine();
 			c.getCourseTeachers().add(Database.findTeacherByID(teacherID));
 			System.out.println("Teacher added!");
 		}
 		else if(action == 2) {
+			System.out.print("Write lesson time(format 00:00), lesson duration, day of week(with capital letters), room (separated with spaces): ");
+			String lessonInfo = in.readLine();
+			StringTokenizer st = new StringTokenizer(lessonInfo, ": ");
+			System.out.print("Which teacher lesson it will be:");
+			c.viewCourseTeachers();
+			String teacherID = in.readLine();
+			Teacher t = Database.findTeacherByID(teacherID);
+			t.getSchedule().addLesson(new Lesson(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Double.parseDouble(st.nextToken()), DayOfWeek.valueOf(st.nextToken())), t, c, Integer.parseInt(st.nextToken())));
+		}
+		else if(action == 3) {
 			System.out.print("Write teacher ID: ");
 			String teacherID = in.readLine();
 			c.getCourseTeachers().remove(Database.findTeacherByID(teacherID));

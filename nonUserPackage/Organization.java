@@ -10,7 +10,7 @@ public class Organization {
         this.setOrgID();
     }
     private void setOrgID() {
-    	this.orgID = "ORG" + this.head.getFaculty().name() + " " + String.valueOf(Math.random()*100+14);
+    	this.orgID = "ORG" + this.head.getFaculty().name() + " " + String.valueOf((int)(Math.random()*100+14));
     }
     public Student getHead() {
         return head;

@@ -11,6 +11,11 @@ public class Mark implements Serializable{
 	private Attestaion first;
 	private Attestaion second;
 	private FinalAttestaion finalAtt;
+	{
+		first = new Attestaion();
+		second = new Attestaion();
+		finalAtt = new FinalAttestaion();
+	}
 	public Mark() {
 		
 	}

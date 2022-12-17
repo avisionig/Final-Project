@@ -29,7 +29,7 @@ public class UniSystem {
 				if (acc == 1) {
 					System.out.println("Hello admin");
 					while(exit == false) {
-						System.out.println("What to do?\n1.Add user\n2.View users\n3.Log out");
+						System.out.println("What to do?\n1.Add user\n2.View users\n3.Delete user\n4.Log out");
 						int action = Integer.parseInt(input.readLine());
 						if (action == 1) {
 							User newUser = Admin.adminning().addUser();
@@ -50,7 +50,10 @@ public class UniSystem {
 						else if(action == 2) {
 							Database.viewAllUsers();
 						}
-						else if (action == 3) {
+						else if(action == 3) {
+							Admin.adminning().deleteUser();
+						}
+						else if (action == 4) {
 								exit = true;
 							}
 						}

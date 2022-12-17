@@ -35,7 +35,13 @@ public class Lesson implements Serializable{
 	public boolean equals(Object o) {
 		if(o == null) return false;
 		Lesson l = (Lesson) o;
-		return this.room == l.room && this.timeOfLesson.equals(l.timeOfLesson);
+		return this.room == l.room && this.timeOfLesson.equals(l.timeOfLesson) && this.lessonTeacher.equals(l.lessonTeacher) && this.courseLesson.equals(l.courseLesson);
+	}
+	public boolean timeEquality(Lesson l) {
+		return this.timeOfLesson.equals(l.getTime());
+	}
+	public boolean roomEquality(Lesson l) {
+		return this.room == l.room;
 	}
 	public String toString() {
 		return "(" + this.courseLesson.getCourseName()+ " | " + this.lessonTeacher.getFirstName() + " " + this.lessonTeacher.getLastName() + " | time: " + this.timeOfLesson + " | room: " + this.room +")";

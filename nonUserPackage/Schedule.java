@@ -1,11 +1,9 @@
 package nonUserPackage;
 
 import java.io.Serializable;
+
 import java.util.Vector;
-import java.util.stream.Stream;
-
 import userPackage.Teacher;
-
 import java.time.DayOfWeek;
 
 
@@ -16,19 +14,24 @@ public class Schedule implements Serializable{
 	{
 		lessons = new Vector<Lesson>();
 	}
-	public void addLesson(Lesson lesson) {
+	public void addLesson(Lesson les) {
 		for(Lesson l : lessons) {
-			if((l.equals(lesson))) {
+			if(l.timeEquality(les) || (l.timeEquality(les) && l.roomEquality(les))) {
 				System.out.println("There is a collision!");
 				return;
 			}
 		}
-		lessons.add(lesson);
+		lessons.add(les);
 		System.out.println("Lesson is added!");
 	}
 	public Lesson findLessonByFullInfo(Time t, Teacher teacher, Course c, int roomt) {
-		Lesson les = (Lesson) this.lessons.stream().filter(l -> l.equals(new Lesson(t, teacher, c, roomt))).limit(1);
-		return les;
+		Lesson l = new Lesson(t, teacher, c, roomt);
+		for(Lesson les : lessons) {
+			if (les.equals(l) ) {
+				return les;
+			}
+		}
+		return null;
 	}
 	public Lesson findLessonByTeacher(Teacher t) {
 		Lesson les = (Lesson) this.lessons.stream().filter(l -> l.getLessonTeacher().equals(t)).limit(1);

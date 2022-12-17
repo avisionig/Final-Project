@@ -1,7 +1,6 @@
 package userPackage;
 
 import java.io.BufferedReader;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
@@ -20,7 +19,9 @@ public class Student extends User{
 	protected HashMap<Course, Mark> coursesAndMarks;
 	protected Mark studMarks;
 	protected Schedule schedule;
+	
 	{
+		schedule = new Schedule();
     	coursesAndMarks = new HashMap<Course,Mark>();
     }
 	public Student(String firstName, String lastName, LocalDate yearOfAdmission,Faculty faculty) {
@@ -131,5 +132,8 @@ public class Student extends User{
 	}
 	public String viewStudentAndMark(Course c) {
 		return this.userID + " | " + this.firstName + " " + this.lastName + " | " + this.getCoursesAndMarks().get(c);
+	}
+	public static void main(String args[]) {
+		Database.findStudentbyLogin("a_igali").viewSchedule();
 	}
 }

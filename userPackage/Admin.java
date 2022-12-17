@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.StringTokenizer;
 
 import nonUserPackage.Faculty;
+import uniSystemPackage.Database;
 
 public final class Admin extends User{
 
@@ -48,6 +49,28 @@ public final class Admin extends User{
 			
 		}
 		return null;
+	}
+	public void deleteUser() {
+		System.out.println("Who you want to delete?:");
+		System.out.println("1.Student\n2.Teacher\n3.Manager\n4.Librarian\n5.Dean");
+		try {
+			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+			int line = Integer.parseInt(input.readLine());
+			System.out.print("Write login:");
+			String login = input.readLine();
+			if(line == 1) {
+				Database.getStudents().remove(Database.findStudentbyLogin(login));
+			}
+			else if (line == 2) {
+				Database.getTeachers().remove(Database.findTeacherByLogin(login));
+			}
+			else if (line == 3) {
+				Database.getManagers().remove(Database.findManagerbyLogin(login));
+			}
+		}
+		catch(IOException ioe) {
+			
+		}
 	}
 	public String toString() {
     	return super.toString();

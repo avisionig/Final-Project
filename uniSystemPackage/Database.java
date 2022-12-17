@@ -196,6 +196,9 @@ public class Database implements Serializable{
 	public static Vector<Student> getStudents(){
 		return Database.allStudents;
 	}
+	public static Vector<Manager> getManagers(){
+		return Database.allManagers;
+	}
 	private static Vector<Object> readDatabase() {
 			try {
 				FileInputStream fis = new FileInputStream("C:\\Users\\ayan\\eclipse-workspace\\FinalProject\\database.txt");

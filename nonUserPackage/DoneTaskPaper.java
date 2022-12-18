@@ -22,5 +22,5 @@ public class DoneTaskPaper extends Paper{
 	
 	public String toString() {
 		return super.toString();
-	}
+	} 
 }

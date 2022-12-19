@@ -56,7 +56,7 @@ public class Database implements Serializable{
 				allRequests = (Vector<Request>) all.elementAt(6);
 			}	
 			catch(Exception e) {
-				System.out.println("Database not found");
+				System.out.println("Database setting");
 			}
 		}
 	}
@@ -209,14 +209,16 @@ public class Database implements Serializable{
 				ois.close();
 				System.out.println("readed!");
 				return readbase;
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
 			}
-			System.out.println("Not found");
+			catch (FileNotFoundException e) {
+				System.out.println("File not fount!");
+			} 
+			catch (ClassNotFoundException e) {
+				System.out.println("Pop");
+			} 
+			catch (IOException e) {
+				System.out.println("Hop");
+			}
 			return null;
 
 	}

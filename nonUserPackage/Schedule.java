@@ -37,6 +37,25 @@ public class Schedule implements Serializable{
 		Lesson les = (Lesson) this.lessons.stream().filter(l -> l.getLessonTeacher().equals(t)).limit(1);
 		return les;
 	}
+	public Lesson findLessonByCourse(Course c) {
+		for(Lesson l : lessons) {
+			if(l.courseLesson.equals(c)) {
+				return l;
+			}
+		}
+		return null;
+	}
+	public Lesson findLessonByTime(Time t) {
+		for(Lesson les : lessons) {
+			if (les.getTime().equals(t) ) {
+				return les;
+			}
+		}
+		return null;
+	}
+	public Vector<Lesson> getLessons(){
+		return this.lessons;
+	}
 	public String toString() {
 		String schedule = new String();
 		for(DayOfWeek d : DayOfWeek.values()) {

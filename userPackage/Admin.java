@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.StringTokenizer;
 
 import nonUserPackage.Faculty;
+import nonUserPackage.StudentDegree;
 import uniSystemPackage.Database;
 
 public final class Admin extends User{
@@ -36,7 +37,7 @@ public final class Admin extends User{
 				System.out.println("Choose faculty:");
 				System.out.println("1." + Faculty.values()[0] + "\n2." + Faculty.values()[1]+ "\n3." + Faculty.values()[2] + "\n4." + Faculty.values()[3]);
 				int fac = Integer.parseInt(input.readLine());
-				return new Student(st.nextToken(), st.nextToken(), LocalDate.now(), Faculty.values()[fac - 1]);
+				return new Student(st.nextToken(), st.nextToken(), LocalDate.now(), Faculty.values()[fac - 1], StudentDegree.BACHELOR);
 			}
 			else if (line == 2) {
 				return new Teacher(st.nextToken(), st.nextToken(), LocalDate.now());

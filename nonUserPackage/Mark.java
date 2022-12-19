@@ -11,6 +11,8 @@ public class Mark implements Serializable{
 	private Attestaion first;
 	private Attestaion second;
 	private FinalAttestaion finalAtt;
+	private boolean attendance = false;
+	
 	{
 		first = new Attestaion();
 		second = new Attestaion();
@@ -40,6 +42,15 @@ public class Mark implements Serializable{
 		else if(this.finalAtt.getStatus()) {
 			this.finalAtt.changeStatus();
 		}
+	}
+	public boolean getAttendanceStatus() {
+		return this.attendance;
+	}
+	public void markAttendance() {
+		if(this.attendance) this.attendance = false;
+	}
+	public void launchAttendance() {
+		if(!this.attendance) this.attendance = true; 
 	}
 	public boolean equals(Object o) {
 		if (o == null) return false;

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.stream.Stream;
 
 import nonUserPackage.*;
 import uniSystemPackage.Database;
@@ -24,10 +25,11 @@ public class Student extends User{
 		schedule = new Schedule();
     	coursesAndMarks = new HashMap<Course,Mark>();
     }
-	public Student(String firstName, String lastName, LocalDate yearOfAdmission,Faculty faculty) {
+	public Student(String firstName, String lastName, LocalDate yearOfAdmission,Faculty faculty, StudentDegree degree) {
 		super(firstName, lastName);
 		this.yearOfAdmission = yearOfAdmission;
 		this.faculty = faculty;
+		this.degree = degree;
 		this.setUserID();
 		
 	}
@@ -63,6 +65,25 @@ public class Student extends User{
 	}
 	public void viewSchedule() {
 		System.out.println(this.schedule);
+	}
+	public void checkAttendance(){
+		System.out.println("Attendamce:");
+		this.coursesAndMarks.entrySet().stream().filter(c -> c.getValue().getAttendanceStatus() == true).map(c -> this.schedule.findLessonByCourse(c.getKey())).forEach(System.out :: print);
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Write course name to fill attendance(Q to quit):");
+		String courseName;
+		try {
+			courseName = br.readLine();
+			if(courseName.equals("Q")) {
+				return;
+			}
+			this.coursesAndMarks.entrySet().stream().filter(c -> c.getKey().getCourseName().equals(courseName)).forEach(c -> c.getValue().markAttendance());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error!");
+		}
+		
 	}
 	public Request registerTo() throws IOException {
 		String courseID;
@@ -133,7 +154,5 @@ public class Student extends User{
 	public String viewStudentAndMark(Course c) {
 		return this.userID + " | " + this.firstName + " " + this.lastName + " | " + this.getCoursesAndMarks().get(c);
 	}
-	public static void main(String args[]) {
-		Database.findStudentbyLogin("a_igali").viewSchedule();
-	}
+
 }

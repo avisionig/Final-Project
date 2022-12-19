@@ -1,10 +1,12 @@
 package userPackage;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-
+import java.util.StringTokenizer;
 import nonUserPackage.*;
 import uniSystemPackage.Database;
 
@@ -62,21 +64,42 @@ public class Teacher extends Employee{
 			System.out.println("You don't have such course");
 		}
 	}
-	public String toString() {
-		return super.toString();
+	public void launchAttendance(){
+		System.out.println("All lessons:\n" + this.teacherSchedule);
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			System.out.println("Type lesson time(starting time 00:00 format, duration and day):");
+			String lessonTime = br.readLine();
+			StringTokenizer st = new StringTokenizer(lessonTime, ":, ");
+			Lesson l = this.teacherSchedule.findLessonByTime(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Double.parseDouble(st.nextToken()), DayOfWeek.valueOf(st.nextToken())));
+			for(Student s : Database.getStudents()) {
+				if(s.schedule.getLessons().contains(l)) {
+					s.coursesAndMarks.entrySet().stream().filter(c -> c.getKey().equals(l.getLessonCourse())).forEach(c -> c.getValue().launchAttendance());
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error!");
+		}
+		
+		
 	}
-	
-	public boolean equals(Object o) {
-		return super.equals(o);
-	}
-	
-	public int hashCode() {
-		return super.hashCode();
-	}
-	
-	public int compareTo(Teacher o) {
-		return super.compareTo(o);
-	}
+//	public String toString() {
+//		return super.toString();
+//	}
+//	
+//	public boolean equals(Object o) {
+//		return super.equals(o);
+//	}
+//	
+//	public int hashCode() {
+//		return super.hashCode();
+//	}
+//	
+//	public int compareTo(Teacher o) {
+//		return super.compareTo(o);
+//	}
 	
 	
 }

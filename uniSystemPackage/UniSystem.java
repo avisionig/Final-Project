@@ -73,7 +73,7 @@ public class UniSystem {
 							break;
 						}
 						while(exit == false) {
-							System.out.println("What to do?\n1.leave\n2.register to course");
+							System.out.println("What to do?\n1.leave\n2.register to course\n3.Attendance");
 							int action = Integer.parseInt(input.readLine());
 							if(action == 1) {
 								exit = true;
@@ -86,6 +86,9 @@ public class UniSystem {
 								else {
 									System.out.println("Error in system, please try again");
 								}
+							}
+							else if(action == 3) {
+								s.checkAttendance();
 							}
 						}
 					}
@@ -101,18 +104,20 @@ public class UniSystem {
 							break;
 						}
 						while(exit == false) {
-							System.out.println("What to do?\n1.Put mark\n2.Close attestation\n3.leave");
+							System.out.println("What to do?\n1.leave\n2.Put mark\n3.Close attestaion\n4.Launch attendance for lesson");
 							int action = Integer.parseInt(input.readLine());
 							
 							if(action == 1) {
-								t.putMark();
+								exit = true;
 							}
 							else if(action == 2) {
+								t.putMark();
+							}
+							else if(action == 3) {
 								t.closeAttestaion();
 							}
-							
-							else if(action == 3) {
-								exit = true;
+							else if(action == 4) {
+								t.launchAttendance();
 							}
 						}
 					}

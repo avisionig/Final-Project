@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class TaskPaper extends Paper{
+
+	private static final long serialVersionUID = 3364195740706364585L;
 	protected TaskPaperType taskType;
 	public TaskPaper(String paperName, String teacherName, LocalDate date, TaskPaperType taskType) {
 		super(paperName, teacherName, date);
@@ -25,6 +27,6 @@ public class TaskPaper extends Paper{
 	}
 	
 	public String toString() {
-		return super.toString();
+		return super.toString() + this.taskType.name();
 	}
 }

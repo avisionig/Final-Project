@@ -73,7 +73,7 @@ public class UniSystem {
 							break;
 						}
 						while(exit == false) {
-							System.out.println("What to do?\n1.leave\n2.register to course\n3.Attendance");
+							System.out.println("What to do?\n1.leave\n2.register to course\n3.Attendance\n4.Check tasks");
 							int action = Integer.parseInt(input.readLine());
 							if(action == 1) {
 								exit = true;
@@ -107,7 +107,7 @@ public class UniSystem {
 							break;
 						}
 						while(exit == false) {
-							System.out.println("What to do?\n1.leave\n2.Put mark\n3.Close attestaion\n4.Launch attendance for lesson");
+							System.out.println("What to do?\n1.leave\n2.Put mark\n3.Close attestaion\n4.Launch attendance for lesson\n5.Tasks\n6.View marks in lesson");
 							int action = Integer.parseInt(input.readLine());
 							
 							if(action == 1) {

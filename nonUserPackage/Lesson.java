@@ -58,7 +58,7 @@ public class Lesson implements Serializable{
 	public void viewMarksOfStudents() {
 		for(Student s : Database.getStudents()) {
 			if(s.getSchedule().lessons.contains(this))
-			System.out.println(s.getCoursesAndMarks().get(this.courseLesson));
+			System.out.println(s.nameAndID()+ " " +s.getCoursesAndMarks().get(this.courseLesson));
 		}
 	}
 	public void viewTasks() {

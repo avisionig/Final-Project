@@ -40,7 +40,7 @@ public final class Admin extends User{
 				int fac = Integer.parseInt(input.readLine());
 				System.out.println("1." + StudentDegree.values()[0] + "\n2." + StudentDegree.values()[1]+ "\n3." + StudentDegree.values()[2]);
 				int deg = Integer.parseInt(input.readLine());
-				return new Student(st.nextToken(), st.nextToken(), LocalDate.now(), Faculty.values()[fac - 1], StudentDegree.BACHELOR);
+				return new Student(st.nextToken(), st.nextToken(), LocalDate.now(), Faculty.values()[fac - 1], StudentDegree.values()[deg - 1]);
 			}
 			else if (line == 2) {
 				System.out.println("Choose teacher degree:");

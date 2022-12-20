@@ -178,7 +178,7 @@ public class Teacher extends Employee{
 	}
 	public void tasks(BufferedReader in) {
 		while(true) {
-			System.out.print("What to do?\n1.Create task\n2.Set task\n3.Close access to task\n4.leave");
+			System.out.print("What to do?\n1.Create task\n2.Set task\n3.Close access to task\n4.leave\n");
 			try {
 				int action = Integer.parseInt(in.readLine());
 				if(action == 1) {

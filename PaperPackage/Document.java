@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Document extends Paper{
+	
+	private static final long serialVersionUID = -4730063535945046635L;
 	protected String description;
 	public Document(String paperName, String sender, LocalDate date, String description) {
 		super(paperName, sender, date);

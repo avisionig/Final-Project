@@ -1,9 +1,12 @@
 package PaperPackage;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Paper {
+public class Paper implements Serializable{
+
+	private static final long serialVersionUID = -5521859643283924756L;
 	protected String paperName, sender;
 	protected LocalDate date;
 	

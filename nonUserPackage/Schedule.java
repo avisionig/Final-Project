@@ -34,8 +34,12 @@ public class Schedule implements Serializable{
 		return null;
 	}
 	public Lesson findLessonByTeacher(Teacher t) {
-		Lesson les = (Lesson) this.lessons.stream().filter(l -> l.getLessonTeacher().equals(t)).limit(1);
-		return les;
+		for(Lesson les : lessons) {
+			if(les.lessonTeacher.equals(t)) {
+				return les;
+			}
+		}
+		return null;
 	}
 	public Lesson findLessonByCourse(Course c) {
 		for(Lesson l : lessons) {

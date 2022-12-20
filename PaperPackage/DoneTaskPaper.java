@@ -3,6 +3,8 @@ package PaperPackage;
 import java.util.Objects;
 
 public class DoneTaskPaper extends TaskPaper{
+
+	private static final long serialVersionUID = 5757435423744273513L;
 	protected TaskPaper task;
 	protected String studentID;
 	public DoneTaskPaper(TaskPaper task, String studentID) {

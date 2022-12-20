@@ -100,7 +100,7 @@ public class Student extends User{
 			Course c = Database.findCoursebyName(courseName);
 			Lesson l = this.schedule.findLessonByCourse(c);
 			l.viewTasks();
-			System.out.println("Choose task:");
+			System.out.println("Choose task name and type:");
 			String task = br.readLine();
 			StringTokenizer st = new StringTokenizer(task, " ");
 			TaskPaper tp = l.getTaskPaperByNameAndType(st.nextToken(), TaskPaperType.valueOf(st.nextToken()));
@@ -168,7 +168,9 @@ public class Student extends User{
 	public String toString() {
 		return super.toString() + " "+ this.faculty.name() +" year of Education " + this.yearOfEducation + " year of admission " + this.yearOfAdmission; 
 	}
-	
+	public String nameAndID() {
+		return super.toString();
+	}
 	public int hashCode() {
 		return super.hashCode();
 	}

@@ -7,9 +7,7 @@ import java.io.InputStreamReader;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
-import PaperPackage.DoneTaskPaper;
 import PaperPackage.TaskPaper;
 import PaperPackage.TaskPaperType;
 import nonUserPackage.*;
@@ -18,10 +16,8 @@ import uniSystemPackage.Database;
 public class Teacher extends Employee{
 	protected Schedule teacherSchedule;
 	protected TeacherDegree degree;
-	protected Vector<TaskPaper> allCreatedTasks;
 	private static final long serialVersionUID = 1051055956846350581L;
-	{	
-		allCreatedTasks = new Vector<TaskPaper>();
+	{
 		teacherSchedule = new Schedule();
 	}
 	public Teacher(String firstName, String lastName, LocalDate hireDate, TeacherDegree degree) {
@@ -59,41 +55,21 @@ public class Teacher extends Employee{
 		}
 	}
 	
-	public void putMark() {
+	public void putMark() throws IOException {
 		System.out.println("Choose course by ID");
-		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-			String courseID = in.readLine();
-			if(Database.findCoursebyID(courseID).getCourseTeachers().contains(this)) {
-				Database.viewStudentsInCourse(courseID, this.userID);
-				System.out.println("Choose student by ID");
-				String studID = in.readLine();
-				Mark m = Database.findStudentbyID(studID).getCoursesAndMarks().get(Database.findCoursebyID(courseID));
-				System.out.println("Put student's mark:");
-				double point = Double.parseDouble(in.readLine());
-				m.setMark(point);
-			}
-			else {
-				System.out.println("You don't have such course");
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		String courseID = in.readLine();
+		if(Database.findCoursebyID(courseID).getCourseTeachers().contains(this)) {
+			Database.viewStudentsInCourse(courseID, this.userID);
+			System.out.println("Choose student by ID");
+			String studID = in.readLine();
+			Mark m = Database.findStudentbyID(studID).getCoursesAndMarks().get(Database.findCoursebyID(courseID));
+			System.out.println("Put student's mark:");
+			double point = Double.parseDouble(in.readLine());
+			m.setMark(point);
 		}
-	}
-	public void viewStudentsMarksInLesson() {
-		System.out.println("All lessons:\n" + this.teacherSchedule);
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("Type lesson time(starting time 00:00 format, duration and day):");
-			String lessonTime = br.readLine();
-			StringTokenizer st = new StringTokenizer(lessonTime, ":, ");
-			Lesson l = this.teacherSchedule.findLessonByTime(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Double.parseDouble(st.nextToken()), DayOfWeek.valueOf(st.nextToken())));
-			l.viewMarksOfStudents();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Error!");
+		else {
+			System.out.println("You don't have such course");
 		}
 	}
 	public void launchAttendance(){
@@ -116,88 +92,25 @@ public class Teacher extends Employee{
 		}
 	}
 	
-	public void createTask() {
+	
+	public void setTasks() {
 		System.out.println("Create task:(it's name and type(HW, MID) capital letters");
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			String taskPP = br.readLine();
 			StringTokenizer st = new StringTokenizer(taskPP, " ");
 			TaskPaper taskPaper = new TaskPaper(st.nextToken(), this.userID, LocalDate.now(), TaskPaperType.valueOf(st.nextToken()));
-			this.allCreatedTasks.add(taskPaper);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	public void checkDoneTask(DoneTaskPaper dtp) {
-		Student s = Database.findStudentbyID(dtp.getStudentID());
-		Course c = s.schedule.findLessonByTeacher(this).getLessonCourse();
-		s.coursesAndMarks.get(c).setMark(Math.round((Math.random() * 15 + 15) * 1000)/1000.0);
-	}
-	public void viewTasks() {
-		int i = 1;
-		for(TaskPaper tp : this.allCreatedTasks) {
-			System.out.println(i + "." +tp);
-			i++;
-		}
-	}
-	public void setTasks() {
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			System.out.println("All lessons:\n" + this.teacherSchedule);
 			System.out.println("Type lesson time(starting time 00:00 format, duration and day):");
 			String lessonTime = br.readLine();
-			this.viewTasks();
-			int taskPP = Integer.parseInt(br.readLine());
 			StringTokenizer stLesson = new StringTokenizer(lessonTime, ":, ");
 			Lesson l = this.teacherSchedule.findLessonByTime(new Time(Integer.parseInt(stLesson.nextToken()), Integer.parseInt(stLesson.nextToken()), Double.parseDouble(stLesson.nextToken()), DayOfWeek.valueOf(stLesson.nextToken())));
-			l.getTasks().put(this.allCreatedTasks.elementAt(taskPP - 1), true);
+			l.getTasks().put(taskPaper, true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("Error!");
 		}	
-	}
-	public void closeAccessToTask() {
-		System.out.println("All lessons:\n" + this.teacherSchedule);
-		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("Type lesson time(starting time 00:00 format, duration and day):");
-			String lessonTime = br.readLine();
-			StringTokenizer st = new StringTokenizer(lessonTime, ":, ");
-			this.viewTasks();
-			int taskPP = Integer.parseInt(br.readLine());
-			Lesson l = this.teacherSchedule.findLessonByTime(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Double.parseDouble(st.nextToken()), DayOfWeek.valueOf(st.nextToken())));
-//			l.getTasks().put(this.allCreatedTasks.elementAt(taskPP - 1), false);
-			l.getTasks().compute(this.allCreatedTasks.elementAt(taskPP - 1), (k, v) -> v = false);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Error!");
-		}
-	}
-	public void tasks(BufferedReader in) {
-		while(true) {
-			System.out.print("What to do?\n1.Create task\n2.Set task\n3.Close access to task\n4.leave");
-			try {
-				int action = Integer.parseInt(in.readLine());
-				if(action == 1) {
-					this.createTask();
-				}
-				else if(action == 2) {
-					this.setTasks();
-				}
-				else if(action == 3) {
-					this.closeAccessToTask();
-				}
-				else if(action == 4) {
-					return;
-				}
-			} catch (NumberFormatException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 //	public String toString() {
 //		return super.toString();

@@ -8,6 +8,9 @@ public class LibrarySubscription {
     private Student student;
     private Book book;
 
+    public LibrarySubscription() {
+    }
+
     public LibrarySubscription(String subscriptionId, Student student, Book book) {
         this.subscriptionId = subscriptionId;
         this.student = student;

@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.Objects;
 
+import uniSystemPackage.Database;
+
 
 public abstract class User implements Comparable<User>, Serializable, Cloneable {
     
@@ -77,7 +79,7 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     }
 
     public void viewNews() {
-        
+    	Database.viewNews();
     }
 	@Override
 	public int compareTo(User o) {
@@ -121,6 +123,11 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
 		}
 		return false;
 	}
+	
+	public void userMenu(BufferedReader input) {
+		System.out.println("What to do?(type Q to leave)");
+	}
+	
     public String toString() {
     	return this.userID + " | " + this.firstName + " " + this.lastName;
     }

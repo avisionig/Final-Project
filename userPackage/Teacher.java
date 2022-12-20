@@ -199,9 +199,44 @@ public class Teacher extends Employee{
 			}
 		}
 	}
-//	public String toString() {
-//		return super.toString();
-//	}
+	public void userMenu(BufferedReader input) {
+		while(true) {
+			super.userMenu(input);
+			System.out.println("1.Put mark\n2.Close attestaion\n3.Launch attendance for lesson\n4.Tasks\n5.View marks in lesson\n6.View news");
+			try {
+				String action = input.readLine();
+				if(action.equals("Q")) {
+					return;
+				}
+				int ac = Integer.parseInt(action);
+				
+				if(ac == 1) {
+					this.putMark();
+				}
+				else if(ac == 2) {
+					this.closeAttestaion();
+				}
+				else if(ac == 3) {
+					this.launchAttendance();
+				}
+				else if(ac == 4) {
+					this.tasks(input);
+				}
+				else if(ac == 5) {
+					this.viewStudentsMarksInLesson();
+				}
+				else if(ac == 6) {
+					this.viewNews();
+				}
+			} catch (IOException e) {
+				System.out.println("Somethinhg bad happened!");
+				e.printStackTrace();
+			}
+		}
+	}
+	public String toString() {
+		return super.toString()+ " " + this.degree.name();
+	}
 //	
 //	public boolean equals(Object o) {
 //		return super.equals(o);

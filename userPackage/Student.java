@@ -1,12 +1,12 @@
 package userPackage;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.StringTokenizer;
-import java.util.stream.Stream;
 
 import PaperPackage.DoneTaskPaper;
 import PaperPackage.TaskPaper;
@@ -165,6 +165,44 @@ public class Student extends User{
 		Student s = (Student)o;
 		return this.yearOfEducation == s.yearOfEducation && this.faculty == s.faculty;
 	}
+	
+	public void userMenu(BufferedReader input) {
+		while(true) {
+			super.userMenu(input);
+			System.out.println("1.register to course\n2.Attendance\n3.Check tasks\n4.View news");
+			String action;
+			try {
+				action = input.readLine();
+		
+				if(action.equals("Q")) {
+					return;
+				}
+				int ac = Integer.parseInt(action);
+				if(ac == 1) {
+					Request r = this.registerTo();
+					if(r != null) {
+						Database.getRequests().add(r);
+					}
+					else {
+						System.out.println("Error in system, please try again");
+					}
+				}
+				else if(ac == 2) {
+					this.checkAttendance();
+				}
+				else if(ac == 3) {
+					this.checkTasks();
+				}
+				else if(ac == 4) {
+					this.viewNews();
+				}
+			} 	catch (IOException e) {
+				System.out.println("Somethinhg bad happened!");
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public String toString() {
 		return super.toString() + " "+ this.faculty.name() +" year of Education " + this.yearOfEducation + " year of admission " + this.yearOfAdmission; 
 	}

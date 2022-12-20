@@ -6,20 +6,21 @@ import java.time.LocalDate;
 
 public class News implements Serializable{
 	private static final long serialVersionUID = -4521726234280720616L;
-	private String newsId, title, description;
+	private String newsID, title, description;
     private LocalDate postDate;
     public News( String title, String description, LocalDate postDate) {
         this.title = title;
         this.description = description;
         this.postDate = postDate;
+        this.setNewsId();
     }
 
-    public String getNewsId() {
-        return newsId;
+    public String getNewsID() {
+        return newsID;
     }
 
-    public void setNewsId(String newsId) {
-        this.newsId = "NEWS" + this.postDate + "0" + String.valueOf((int)(Math.random()*100+69));
+    private void setNewsId() {
+        this.newsID = "NEWS" + this.postDate + "0" + String.valueOf((int)(Math.random()*100+69));
     }
 
     public String getTitle() {
@@ -45,7 +46,7 @@ public class News implements Serializable{
 
     @Override
     public String toString() {
-        return "newsId = " + newsId + " | " +
+        return "newsID: " + newsID + " | " +
                 "Title:  " + title + " | " +
                 "Description: " + description + " | " +
                 "Posted Date: " + postDate;

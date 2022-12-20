@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.util.StringTokenizer;
 
 import nonUserPackage.Faculty;
+import nonUserPackage.Log;
+import nonUserPackage.LogAction;
 import nonUserPackage.StudentDegree;
 import nonUserPackage.TeacherDegree;
 import uniSystemPackage.Database;
@@ -65,22 +67,75 @@ public final class Admin extends User{
 			int line = Integer.parseInt(input.readLine());
 			System.out.print("Write login:");
 			String login = input.readLine();
+			User u;
 			if(line == 1) {
-				Database.getStudents().remove(Database.findStudentbyLogin(login));
+				u = Database.findStudentbyLogin(login);
+				Database.getLogs().add(new Log(LogAction.DELETED, u.toString()));
+				Database.getStudents().remove(u);	
 			}
 			else if (line == 2) {
-				Database.getTeachers().remove(Database.findTeacherByLogin(login));
+				u = Database.findTeacherByLogin(login);
+				Database.getLogs().add(new Log(LogAction.DELETED, u.toString()));
+				Database.getTeachers().remove(u);
 			}
 			else if (line == 3) {
-				Database.getManagers().remove(Database.findManagerbyLogin(login));
+				u = Database.findManagerbyLogin(login);
+				Database.getLogs().add(new Log(LogAction.DELETED, u.toString()));
+				Database.getManagers().remove(u);
 			}
 		}
 		catch(IOException ioe) {
 			
 		}
 	}
+	
+	
+	public void userMenu(BufferedReader input) {
+		while(true) {
+			super.userMenu(input);
+			System.out.println("1.Add user\n2.View users\n3.Delete user\n4.View logs\n5.View news");
+			try{
+				String action = input.readLine();
+				if(action.equals("Q")) {
+					return;
+				}
+				int ac = Integer.parseInt(action);
+				if (ac == 1) {
+					User newUser = Admin.adminning().addUser();
+					
+					if (newUser instanceof Student) {
+						Database.getStudents().add((Student) newUser);
+					}
+					else if (newUser instanceof Teacher) {
+						Database.getTeachers().add((Teacher) newUser);
+					}
+					else if (newUser instanceof Manager) {
+						Database.getManagers().add((Manager) newUser);
+					}
+					else if(newUser == null) {
+						System.out.println("Error! Null user.");
+						}
+					Database.getLogs().add(new Log(LogAction.ADDED, newUser.toString()));
+					}
+				else if(ac == 2) {
+					Database.viewAllUsers();
+				}
+				else if(ac == 3) {
+					Admin.adminning().deleteUser();
+				}
+				else if(ac == 4) {
+					Database.viewLogs();
+				}
+				else if(ac == 5) {
+					Admin.adminning().viewNews();
+				}
+		}catch(IOException ioe) {
+			System.out.println("Somethinhg bad happened!");
+			ioe.printStackTrace();
+			}
+		}
+	}
 	public String toString() {
-    	return super.toString() + "\nAdmin: " +
-                ", login='" + login + '\'';
+    	return super.toString();
     }
 }

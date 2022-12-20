@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Vector;
 
 import nonUserPackage.*;
@@ -33,7 +32,8 @@ public class Database implements Serializable{
 	protected static Vector<Book> allBooks;
 	protected static Vector<Manager> allManagers;
 	protected static Vector<Request> allRequests;
-	
+	protected static Vector<LibrarySubscription> allSubscriptions;
+	protected static Vector<Log> allLogs;
 	static{
 			allStudents = new Vector<Student>();
 			allTeachers = new Vector<Teacher>();
@@ -43,6 +43,7 @@ public class Database implements Serializable{
 			allManagers = new Vector<Manager>();
 			allRequests = new  Vector<Request>();
 			allSubscriptions = new Vector<LibrarySubscription>();
+			allLogs = new Vector<Log>();
 			System.out.println("Chop!");
 		File databaseFile = new File("C:\\Users\\ayan\\eclipse-workspace\\FinalProject\\database.txt");
 		if(databaseFile.exists()) {
@@ -56,7 +57,7 @@ public class Database implements Serializable{
 				allBooks = (Vector<Book>) all.elementAt(5);
 				allRequests = (Vector<Request>) all.elementAt(6);
 				allSubscriptions = (Vector<LibrarySubscription>) all.elementAt(7);
-
+				allLogs = (Vector<Log>)all.elementAt(8);
 			}	
 			catch(Exception e) {
 				System.out.println("Database setting");
@@ -188,9 +189,18 @@ public class Database implements Serializable{
 	}
 	public static void viewNews() {
 		System.out.println("News");
-		for(int i = Database.allNews.size() - 1; i >= 0 ;i++) {
+		for(int i = Database.allNews.size() - 1; i >= 0 ;i--) {
 			System.out.println(allNews.elementAt(i));
 		}
+	}
+	public static void viewLogs() {
+		System.out.println("Logs:");
+		for(int i = Database.allLogs.size() - 1; i >= 0; i--) {
+			System.out.println(allLogs.elementAt(i));
+		}
+	}
+	public static Vector<Log> getLogs(){
+		return Database.allLogs;
 	}
 	public static Vector<Request> getRequests(){
 		return Database.allRequests;
@@ -207,6 +217,9 @@ public class Database implements Serializable{
 	public static Vector<Manager> getManagers(){
 		return Database.allManagers;
 	}
+	public static Vector<News> getNews(){
+		return Database.allNews;
+	}
 	public static Vector<Book> getBooks(){
 		return Database.allBooks;
 	}
@@ -215,7 +228,6 @@ public class Database implements Serializable{
 			try {
 				FileInputStream fis = new FileInputStream("C:\\Users\\ayan\\eclipse-workspace\\FinalProject\\database.txt");
 				ObjectInputStream ois = new ObjectInputStream(fis);
-				@SuppressWarnings("unchecked")
 				Vector<Object> readbase = (Vector<Object>)ois.readObject();
 				fis.close();
 				ois.close();
@@ -244,6 +256,7 @@ public class Database implements Serializable{
 		all.add(allBooks);
 		all.add(allRequests);
 		all.add(allSubscriptions);
+		all.add(allLogs);
 		FileOutputStream fos;
 		ObjectOutputStream oos;
 		try {

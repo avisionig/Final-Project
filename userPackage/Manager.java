@@ -148,9 +148,52 @@ public class Manager extends Employee{
 			System.out.println("Teacher deleted");
 		}
 	}
-	
+	public void userMenu(BufferedReader input) {
+		while(true) {
+			super.userMenu(input);
+			System.out.println("1.Check requests\n2.Create course\n3.Create News\n4.Manage courses\n5.View news");
+			try {
+				String action = input.readLine();
+		
+				if(action.equals("Q")) {
+					return;
+				}
+				int ac = Integer.parseInt(action);
+				if(ac == 1) {
+					this.checkRequests();
+				}
+				else if(ac == 2) {
+					Course c = this.createCourse();
+					if(c != null) {
+						Database.getCourses().add(c);
+					}
+					else {
+						System.out.println("Error");
+					}
+				}
+				else if(ac == 3) {
+					News n = this.createNews();
+					if(n != null) {
+						Database.getNews().add(n);
+					}
+					else {
+						System.out.println("Error");
+					}
+				}
+				else if(ac == 4) {
+					this.manageCourse();
+				}
+				else if(ac == 5) {
+					this.viewNews();
+				}
+			} 	catch (IOException e) {
+				System.out.println("Somethinhg bad happened!");
+				e.printStackTrace();
+			}
+		}
+	}
 	public String toString() {
-		return super.toString() +" hireDate=" + hireDate;
+		return super.toString();
 	}
 	
 	public boolean equals(Object o) {

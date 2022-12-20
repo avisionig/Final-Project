@@ -11,7 +11,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Librarian extends Employee implements LibraryRegister {
-    private List<LibrarySubscription> subscriptionList;
+    private List<LibrarySubscription> subscriptionList = new ArrayList<>();
 
     protected Librarian(String firstName, String lastName, LocalDate hireDate) {
         super(firstName, lastName, hireDate);
@@ -34,13 +34,13 @@ public class Librarian extends Employee implements LibraryRegister {
     }
 
     public void addBook(Book book) {
-        Database.getAllBooks().add(book);
+        Database.getBooks().add(book);
     }
 
     //--
     @Override
     public void showBooks() {
-        Database.getAllBooks().forEach(System.out::println);
+        Database.getBooks().forEach(System.out::println);
     }
 
     @Override
@@ -50,7 +50,11 @@ public class Librarian extends Employee implements LibraryRegister {
 
     @Override
     public void addLibrarySubscription(Student student, Book book) {
-        subscriptionList.add(new LibrarySubscription(String.valueOf(Math.random() * 1000 + 100), student, book));
+        String id = String.valueOf((int) (Math.random() * 1000 + 100));
+        if (findLibrarySubscriptionById(id) != null) {
+            return;
+        }
+        subscriptionList.add(new LibrarySubscription(id, student, book));
     }
 
     @Override
@@ -69,7 +73,11 @@ public class Librarian extends Employee implements LibraryRegister {
 
     @Override
     public LibrarySubscription findLibrarySubscriptionById(String subscriptionId) {
-        return subscriptionList.stream().filter(s -> Objects.equals(subscriptionId, s.getSubscriptionId())).collect(Collectors.toList()).get(0);
+        List<LibrarySubscription> collect = subscriptionList.stream().filter(s -> Objects.equals(subscriptionId, s.getSubscriptionId())).collect(Collectors.toList());
+        if (collect.size() == 0) {
+            return null;
+        }
+        return collect.get(0);
     }
 
     @Override
@@ -81,6 +89,9 @@ public class Librarian extends Employee implements LibraryRegister {
     public void updateLibrarySubscription(Student student, Book book) {
         LibrarySubscription librarySubscription = findLibrarySubscriptionByStudentId(student.getUserID());
         int i = findAllLibrarySubscriptions().indexOf(librarySubscription);
+        if (librarySubscription == null) {
+            return;
+        }
         librarySubscription.setBook(book);
         librarySubscription.setStudent(student);
         subscriptionList.set(i, librarySubscription);

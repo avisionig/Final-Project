@@ -105,7 +105,6 @@ public class Teacher extends Employee{
 			String lessonTime = br.readLine();
 			StringTokenizer stLesson = new StringTokenizer(lessonTime, ":, ");
 			Lesson l = this.teacherSchedule.findLessonByTime(new Time(Integer.parseInt(stLesson.nextToken()), Integer.parseInt(stLesson.nextToken()), Double.parseDouble(stLesson.nextToken()), DayOfWeek.valueOf(stLesson.nextToken())));
-			// TODO view the problem with taskPaper in put on HashMap
 			l.getTasks().put(taskPaper, true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

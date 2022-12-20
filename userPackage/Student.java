@@ -67,7 +67,7 @@ public class Student extends User{
 		System.out.println(this.schedule);
 	}
 	public void checkAttendance(){
-		System.out.println("Attendamce:");
+		System.out.println("Attendance:");
 		this.coursesAndMarks.entrySet().stream().filter(c -> c.getValue().getAttendanceStatus() == true).map(c -> this.schedule.findLessonByCourse(c.getKey())).forEach(System.out :: print);
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Write course name to fill attendance(Q to quit):");

@@ -78,7 +78,7 @@ public class Manager extends Employee{
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String reqID = in.readLine();
 		Request r = Database.findRequestByID(reqID);
-		if(r.getRequestType == RequestType.ADDDROP) {
+		if(r.getRequestType() == RequestType.ADDDROP) {
 			System.out.println("1.Add\n2.No");
 			int action = Integer.parseInt(in.readLine());
 			if (action == 1) {
@@ -110,7 +110,7 @@ public class Manager extends Employee{
 				Database.getRequests().remove(r);
 			}
 		}
-		else if(r.getRequestType == RequestType.DOCUMENT) {
+		else if(r.getRequestType() == RequestType.DOCUMENT) {
 			
 		}
 	}

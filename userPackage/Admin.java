@@ -80,6 +80,7 @@ public final class Admin extends User{
 		}
 	}
 	public String toString() {
-    	return super.toString();
+    	return super.toString() + "\nAdmin: " +
+                ", login='" + login + '\'';
     }
 }

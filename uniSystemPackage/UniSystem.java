@@ -133,7 +133,7 @@ public class UniSystem {
 							break;
 						}
 						while(exit == false) {
-							System.out.println("What to do?\n1.Check requests\n2.Create course\n3.Manage News\n4.Manage courses\n5.leave");
+							System.out.println("What to do?\n1.Check requests\n2.Create course\n3.Create News\n4.Manage courses\n5.leave");
 							int action = Integer.parseInt(input.readLine());
 							
 							if(action == 1) {
@@ -150,7 +150,13 @@ public class UniSystem {
 							}
 							
 							else if(action == 3) {
-									
+								News n = m.createNews();
+								if(n != null) {
+									Database.allCourses.add(n);
+								}
+								else {
+									System.out.println("Error");
+								}	
 							}
 							else if (action == 4) {
 								m.manageCourse();

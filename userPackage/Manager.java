@@ -146,7 +146,8 @@ public class Manager extends Employee{
 	}
 	
 	public String toString() {
-		return super.toString();
+		return super.toString() +"\nManager " +
+                "hireDate=" + hireDate;
 	}
 	
 	public boolean equals(Object o) {

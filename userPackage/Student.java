@@ -5,8 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 import java.util.stream.Stream;
 
+import PaperPackage.DoneTaskPaper;
+import PaperPackage.TaskPaper;
+import PaperPackage.TaskPaperType;
 import nonUserPackage.*;
 import uniSystemPackage.Database;
 
@@ -67,8 +71,8 @@ public class Student extends User{
 		System.out.println(this.schedule);
 	}
 	public void checkAttendance(){
-		System.out.println("Attendance:");
-		this.coursesAndMarks.entrySet().stream().filter(c -> c.getValue().getAttendanceStatus() == true).map(c -> this.schedule.findLessonByCourse(c.getKey())).forEach(System.out :: print);
+		System.out.println("Attendamce:");
+		this.coursesAndMarks.entrySet().stream().filter(c -> c.getValue().getAttendanceStatus() == true).map(c -> this.schedule.findLessonByCourse(c.getKey())).forEach(System.out :: println);
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Write course name to fill attendance(Q to quit):");
 		String courseName;
@@ -84,6 +88,27 @@ public class Student extends User{
 			System.out.println("Error!");
 		}
 		
+	}
+	public void checkTasks() {
+		for(Course c : this.coursesAndMarks.keySet()) {
+			System.out.println(c);
+		}
+		System.out.println("Choose course by name:");
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			String courseName = br.readLine();
+			Course c = Database.findCoursebyName(courseName);
+			Lesson l = this.schedule.findLessonByCourse(c);
+			l.viewTasks();
+			System.out.println("Choose task:");
+			String task = br.readLine();
+			StringTokenizer st = new StringTokenizer(task, " ");
+			TaskPaper tp = l.getTaskPaperByNameAndType(st.nextToken(), TaskPaperType.valueOf(st.nextToken()));
+			Database.findTeacherByID(tp.getSender()).checkDoneTask(new DoneTaskPaper(tp, this.userID));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public Request registerTo() throws IOException {
 		String courseID;

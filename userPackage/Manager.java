@@ -132,10 +132,10 @@ public class Manager extends Employee{
 			System.out.println("Teacher added!");
 		}
 		else if(action == 2) {
-			System.out.print("Write lesson time(format 00:00), lesson duration, day of week(with capital letters), room (separated with spaces): ");
+			System.out.println("Write lesson time(format 00:00), lesson duration, day of week(with capital letters), room (separated with spaces): ");
 			String lessonInfo = in.readLine();
 			StringTokenizer st = new StringTokenizer(lessonInfo, ": ");
-			System.out.print("Which teacher lesson it will be:");
+			System.out.println("Which teacher lesson it will be:");
 			c.viewCourseTeachers();
 			String teacherID = in.readLine();
 			Teacher t = Database.findTeacherByID(teacherID);
@@ -150,8 +150,7 @@ public class Manager extends Employee{
 	}
 	
 	public String toString() {
-		return super.toString() +"\nManager " +
-                "hireDate=" + hireDate;
+		return super.toString() +" hireDate=" + hireDate;
 	}
 	
 	public boolean equals(Object o) {

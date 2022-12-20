@@ -46,8 +46,6 @@ public abstract class Employee extends User{
 	}
 	
 	public String toString() {
-		return super.toString() + "\nEmployee: " +
-				"salary=" + salary +
-				", hireDate=" + hireDate; 
+		return super.toString() + ", hireDate=" + hireDate; 
 	}
 }

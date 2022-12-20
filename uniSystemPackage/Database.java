@@ -42,6 +42,7 @@ public class Database implements Serializable{
 			allBooks = new Vector<Book>();
 			allManagers = new Vector<Manager>();
 			allRequests = new  Vector<Request>();
+			allSubscriptions = new Vector<LibrarySubscription>();
 			System.out.println("Chop!");
 		File databaseFile = new File("C:\\Users\\ayan\\eclipse-workspace\\FinalProject\\database.txt");
 		if(databaseFile.exists()) {
@@ -54,6 +55,8 @@ public class Database implements Serializable{
 				allNews = (Vector<News>) all.elementAt(4);
 				allBooks = (Vector<Book>) all.elementAt(5);
 				allRequests = (Vector<Request>) all.elementAt(6);
+				allSubscriptions = (Vector<LibrarySubscription>) all.elementAt(7);
+
 			}	
 			catch(Exception e) {
 				System.out.println("Database setting");
@@ -240,6 +243,7 @@ public class Database implements Serializable{
 		all.add(allNews);
 		all.add(allBooks);
 		all.add(allRequests);
+		all.add(allSubscriptions);
 		FileOutputStream fos;
 		ObjectOutputStream oos;
 		try {

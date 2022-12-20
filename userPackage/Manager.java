@@ -78,37 +78,41 @@ public class Manager extends Employee{
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String reqID = in.readLine();
 		Request r = Database.findRequestByID(reqID);
-		System.out.println("1.Add\n2.No");
-		int action = Integer.parseInt(in.readLine());
-		if (action == 1) {
-			Student s = (Student) r.getRequestAuthor();
-			StringTokenizer st = new StringTokenizer(r.getDesctiption(), ": ");
-			Course c = Database.findCoursebyID(st.nextToken());
-			if(c == null) {
-				System.out.println("Error no such course");
+		if(r.getRequestType == RequestType.ADDDROP) {
+			System.out.println("1.Add\n2.No");
+			int action = Integer.parseInt(in.readLine());
+			if (action == 1) {
+				Student s = (Student) r.getRequestAuthor();
+				StringTokenizer st = new StringTokenizer(r.getDesctiption(), ": ");
+				Course c = Database.findCoursebyID(st.nextToken());
+				if(c == null) {
+					System.out.println("Error no such course");
+					Database.getRequests().remove(r);
+					return;
+				}
+				Teacher t = Database.findTeacherByID(st.nextToken());
+				if(t == null) {
+					System.out.println("Error no such teacher");
+					Database.getRequests().remove(r);
+					return;
+				}
+				Lesson l = t.getSchedule().findLessonByFullInfo(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Double.parseDouble(st.nextToken()), DayOfWeek.valueOf(st.nextToken())), t, c, Integer.parseInt(st.nextToken()));
+				if(l == null) {
+					System.out.println("Error no such teacher");
+					Database.getRequests().remove(r);
+					return;
+				}
+				s.getCoursesAndMarks().put(c, new Mark());
+				s.getSchedule().addLesson(l);
 				Database.getRequests().remove(r);
-				return;
 			}
-			Teacher t = Database.findTeacherByID(st.nextToken());
-			if(t == null) {
-				System.out.println("Error no such teacher");
+			else {
 				Database.getRequests().remove(r);
-				return;
 			}
-			Lesson l = t.getSchedule().findLessonByFullInfo(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Double.parseDouble(st.nextToken()), DayOfWeek.valueOf(st.nextToken())), t, c, Integer.parseInt(st.nextToken()));
-			if(l == null) {
-				System.out.println("Error no such teacher");
-				Database.getRequests().remove(r);
-				return;
-			}
-			s.getCoursesAndMarks().put(c, new Mark());
-			s.getSchedule().addLesson(l);
-			Database.getRequests().remove(r);
 		}
-		else {
-			Database.getRequests().remove(r);
+		else if(r.getRequestType == RequestType.DOCUMENT) {
+			
 		}
-
 	}
 	
 	

@@ -90,6 +90,9 @@ public class UniSystem {
 							else if(action == 3) {
 								s.checkAttendance();
 							}
+							else if(action == 4) {
+								s.checkTasks();
+							}
 						}
 					}
 				}
@@ -118,6 +121,12 @@ public class UniSystem {
 							}
 							else if(action == 4) {
 								t.launchAttendance();
+							}
+							else if(action == 5) {
+								t.tasks(input);
+							}
+							else if(action == 6) {
+								t.viewStudentsMarksInLesson();
 							}
 						}
 					}

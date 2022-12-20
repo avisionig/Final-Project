@@ -9,6 +9,9 @@ public class DoneTaskPaper extends TaskPaper{
 		super(task.paperName, task.sender, task.date, task.taskType);
 		this.studentID = studentID;
 	}
+	public String getStudentID() {
+		return this.studentID;
+	}
 	public boolean equals(Object o) {
 		if(!super.equals(o)) return false;
 		DoneTaskPaper dtp = (DoneTaskPaper)o;

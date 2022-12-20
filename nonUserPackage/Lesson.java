@@ -1,8 +1,12 @@
 package nonUserPackage;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import PaperPackage.*;
+import uniSystemPackage.Database;
+import userPackage.Student;
 import userPackage.Teacher;
 
 public class Lesson implements Serializable{
@@ -50,6 +54,27 @@ public class Lesson implements Serializable{
 	}
 	public HashMap<TaskPaper, Boolean> getTasks(){
 		return this.tasks;
+	}
+	public void viewMarksOfStudents() {
+		for(Student s : Database.getStudents()) {
+			if(s.getSchedule().lessons.contains(this))
+			System.out.println(s.getCoursesAndMarks().get(this.courseLesson));
+		}
+	}
+	public void viewTasks() {
+		for(Entry<TaskPaper, Boolean> tp : this.tasks.entrySet()) {
+			if(tp.getValue().equals(true)) {
+				System.out.println(tp.getKey());
+			}
+		}
+	}
+	public TaskPaper getTaskPaperByNameAndType(String name, TaskPaperType tp) {
+		for(Entry<TaskPaper, Boolean> tpb: this.tasks.entrySet()) {
+			if(tpb.getKey().getPaperName().equals(name) &&tpb.getKey().getTaskType().equals(tp)) {
+				return tpb.getKey();
+			}
+		}
+		return null;
 	}
 	public String toString() {
 		return "(" + this.courseLesson.getCourseName()+ " | " + this.lessonTeacher.getFirstName() + " " + this.lessonTeacher.getLastName() + " | time: " + this.timeOfLesson + " | room: " + this.room +")";

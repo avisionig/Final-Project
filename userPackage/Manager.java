@@ -97,7 +97,7 @@ public class Manager extends Employee{
 			}
 			Lesson l = t.getSchedule().findLessonByFullInfo(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Double.parseDouble(st.nextToken()), DayOfWeek.valueOf(st.nextToken())), t, c, Integer.parseInt(st.nextToken()));
 			if(l == null) {
-				System.out.println("Error no such teacher");
+				System.out.println("Error no such lesson");
 				Database.getRequests().remove(r);
 				return;
 			}

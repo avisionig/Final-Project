@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 
 import nonUserPackage.Faculty;
 import nonUserPackage.StudentDegree;
+import nonUserPackage.TeacherDegree;
 import uniSystemPackage.Database;
 
 public final class Admin extends User{
@@ -37,10 +38,15 @@ public final class Admin extends User{
 				System.out.println("Choose faculty:");
 				System.out.println("1." + Faculty.values()[0] + "\n2." + Faculty.values()[1]+ "\n3." + Faculty.values()[2] + "\n4." + Faculty.values()[3]);
 				int fac = Integer.parseInt(input.readLine());
+				System.out.println("1." + StudentDegree.values()[0] + "\n2." + StudentDegree.values()[1]+ "\n3." + StudentDegree.values()[2]);
+				int deg = Integer.parseInt(input.readLine());
 				return new Student(st.nextToken(), st.nextToken(), LocalDate.now(), Faculty.values()[fac - 1], StudentDegree.BACHELOR);
 			}
 			else if (line == 2) {
-				return new Teacher(st.nextToken(), st.nextToken(), LocalDate.now());
+				System.out.println("Choose teacher degree:");
+				System.out.println("1." + TeacherDegree.values()[0] + "\n2." + TeacherDegree.values()[1]+ "\n3." + TeacherDegree.values()[2] + "\n4." + TeacherDegree.values()[3]);
+				int deg = Integer.parseInt(input.readLine());
+				return new Teacher(st.nextToken(), st.nextToken(), LocalDate.now(), TeacherDegree.values()[deg - 1]);
 			}
 			else if (line == 3) {
 				return new Manager(st.nextToken(), st.nextToken(), LocalDate.now());

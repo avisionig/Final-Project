@@ -7,20 +7,25 @@ import java.io.InputStreamReader;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.StringTokenizer;
+
+import PaperPackage.TaskPaper;
+import PaperPackage.TaskPaperType;
 import nonUserPackage.*;
 import uniSystemPackage.Database;
 
 public class Teacher extends Employee{
 	protected Schedule teacherSchedule;
+	protected TeacherDegree degree;
 	private static final long serialVersionUID = 1051055956846350581L;
 	{
 		teacherSchedule = new Schedule();
 	}
-	public Teacher(String firstName, String lastName, LocalDate hireDate) {
+	public Teacher(String firstName, String lastName, LocalDate hireDate, TeacherDegree degree) {
 		super(firstName, lastName, hireDate);
+		this.degree = degree;
 		this.setUserID();
 	}
-
+	
 	public Schedule getSchedule() {
 		return this.teacherSchedule;
 	}
@@ -29,6 +34,9 @@ public class Teacher extends Employee{
 	}
 	protected void setUserID() {
 		this.userID = String.valueOf(this.hireDate.getYear() - 2000) + "TEACH0" +String.valueOf((int)(Math.random()*1000+78));
+	}
+	public TeacherDegree getTeacherDegree() {
+		return this.degree;
 	}
 	public void closeAttestaion() throws IOException {
 		System.out.println("Choose course by ID");
@@ -82,8 +90,27 @@ public class Teacher extends Employee{
 			e.printStackTrace();
 			System.out.println("Error!");
 		}
-		
-		
+	}
+	
+	
+	public void setTasks() {
+		System.out.println("Create task:(it's name and type(HW, MID) capital letters");
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			String taskPP = br.readLine();
+			StringTokenizer st = new StringTokenizer(taskPP, " ");
+			TaskPaper taskPaper = new TaskPaper(st.nextToken(), this.userID, LocalDate.now(), TaskPaperType.valueOf(st.nextToken()));
+			System.out.println("All lessons:\n" + this.teacherSchedule);
+			System.out.println("Type lesson time(starting time 00:00 format, duration and day):");
+			String lessonTime = br.readLine();
+			StringTokenizer stLesson = new StringTokenizer(lessonTime, ":, ");
+			Lesson l = this.teacherSchedule.findLessonByTime(new Time(Integer.parseInt(stLesson.nextToken()), Integer.parseInt(stLesson.nextToken()), Double.parseDouble(stLesson.nextToken()), DayOfWeek.valueOf(stLesson.nextToken())));
+			l.getTasks().put(taskPaper, true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error!");
+		}	
 	}
 //	public String toString() {
 //		return super.toString();

@@ -1,5 +1,8 @@
 package nonUserPackage;
 import java.io.Serializable;
+import java.util.HashMap;
+
+import PaperPackage.*;
 import userPackage.Teacher;
 
 public class Lesson implements Serializable{
@@ -9,7 +12,9 @@ public class Lesson implements Serializable{
 	protected Teacher lessonTeacher;
 	protected Course courseLesson;
 	protected int room;
-	
+	protected HashMap <TaskPaper, Boolean> tasks;{
+		tasks = new HashMap<TaskPaper, Boolean>();
+	}
 	public Lesson (Time timeOfLesson, Teacher lessonTeacher, Course courseLesson, int room) {
 		this.timeOfLesson = timeOfLesson;
 		this.lessonTeacher = lessonTeacher;
@@ -42,6 +47,9 @@ public class Lesson implements Serializable{
 	}
 	public boolean roomEquality(Lesson l) {
 		return this.room == l.room;
+	}
+	public HashMap<TaskPaper, Boolean> getTasks(){
+		return this.tasks;
 	}
 	public String toString() {
 		return "(" + this.courseLesson.getCourseName()+ " | " + this.lessonTeacher.getFirstName() + " " + this.lessonTeacher.getLastName() + " | time: " + this.timeOfLesson + " | room: " + this.room +")";

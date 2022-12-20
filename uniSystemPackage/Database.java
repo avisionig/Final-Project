@@ -183,7 +183,12 @@ public class Database implements Serializable{
 			System.out.println(m);
 		}
 	}
-
+	public static void viewNews() {
+		System.out.println("News");
+		for(int i = Database.allNews.size() - 1; i >= 0 ;i++) {
+			System.out.println(allNews.elementAt(i));
+		}
+	}
 	public static Vector<Request> getRequests(){
 		return Database.allRequests;
 	}

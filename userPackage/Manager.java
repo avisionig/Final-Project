@@ -56,6 +56,22 @@ public class Manager extends Employee{
 		return null;
 	}
 	
+	public News createNews() {
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			System.out.println("Title: ");
+			String title = in.readLine();
+			System.out.println("Description: ");
+			String desc = in.readLine();
+			return new News(title, desc, LocalDate.now());
+			}
+		
+		catch(IOException ioe) {
+			System.out.println("Something bad happened!");
+		}
+		return null;
+	}
+	
 	public void checkRequests() throws IOException {
 		System.out.println("All requests:");
 		Database.viewAllRequests();

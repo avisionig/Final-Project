@@ -152,7 +152,7 @@ public class UniSystem {
 							else if(action == 3) {
 								News n = m.createNews();
 								if(n != null) {
-									Database.allCourses.add(n);
+									Database.allNews.add(n);
 								}
 								else {
 									System.out.println("Error");

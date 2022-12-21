@@ -47,8 +47,8 @@ public class Lesson implements Serializable{
 		Lesson l = (Lesson) o;
 		return this.room == l.room && this.timeOfLesson.equals(l.timeOfLesson) && this.lessonTeacher.equals(l.lessonTeacher) && this.courseLesson.equals(l.courseLesson);
 	}
-	public boolean timeEquality(Lesson l) {
-		return this.timeOfLesson.equals(l.getTime());
+	public boolean timeCollsision(Lesson l) {
+		return this.timeOfLesson.hourCollision(l.getTime());
 	}
 	public boolean roomEquality(Lesson l) {
 		return this.room == l.room;
@@ -57,7 +57,7 @@ public class Lesson implements Serializable{
 		return this.tasks;
 	}
 	public void viewMarksOfStudents() {
-		for(Student s : Database.getStudents()) {
+		for(Student s : Database.accessDB().getStudents()) {
 			if(s.getSchedule().lessons.contains(this))
 			System.out.println(s.nameAndID()+ " " +s.getCoursesAndMarks().get(this.courseLesson));
 		}

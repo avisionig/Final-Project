@@ -42,7 +42,7 @@ public class ResearchDecorator extends User implements Research{
 			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 			int articleIndex = Integer.parseInt(input.readLine());
 			ResearchPaper rp = this.researches.elementAt(articleIndex - 1);
-			Database.getBooks().add(new Book(rp.getPaperName(), this.firstName+ " " + this.lastName, rp.getDate()));
+			Database.accessDB().getBooks().add(new Book(rp.getPaperName(), this.firstName+ " " + this.lastName, rp.getDate(), rp.getResearchContent()));
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

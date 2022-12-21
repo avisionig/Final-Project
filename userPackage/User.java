@@ -1,10 +1,12 @@
 package userPackage;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.StringTokenizer;
 
 import uniSystemPackage.Database;
 
@@ -24,7 +26,7 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     	this.lastName = lastName;
     	this.login = (firstName.charAt(0) + "_" + lastName).toLowerCase();
     	this.password = (firstName + lastName).toLowerCase();
-    	if(!(this instanceof Admin) || !(this instanceof ResearchDecorator))System.out.println("Login: " + this.getLogin() + " | password: " + this.getPassword());
+    	if(!(this instanceof Admin) && !(this instanceof ResearchDecorator) && !(this instanceof Librarian) && !(this instanceof Dean))System.out.println("Login: " + this.getLogin() + " | password: " + this.getPassword());
     	
     }
     abstract void setUserID(); 
@@ -56,7 +58,32 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
         catch(IOException ioe) {
         	System.out.println("Something is wrong!");
         	}
-        
+    }
+    public static String loginToAccount(BufferedReader input, String loginAndPassword) {
+    	try {
+    		StringTokenizer st = new StringTokenizer(loginAndPassword);
+    		String login;
+    		if(!st.hasMoreElements()) {
+				System.out.print("Write login:");
+				login = input.readLine();
+			}
+    		else { 
+    			login = st.nextToken();
+    		}
+			String password;
+			if(!st.hasMoreElements()) {
+				System.out.print("Write password:");
+				password = input.readLine();
+			}
+			else {
+				password = st.nextToken();
+			}
+			return login + " " + password;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
     }
     public String getFirstName() {
         return this.firstName;
@@ -67,7 +94,7 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     }
 
     public void viewNews() {
-    	Database.viewNews();
+    	Database.accessDB().viewNews();
     }
 	@Override
 	public int compareTo(User o) {
@@ -111,10 +138,10 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
 		}
 		return false;
 	}
-	
 	public void userMenu(BufferedReader input) {
 		System.out.println("What to do?(type Q to leave)");
 	}
+	
 	
     public String toString() {
     	return this.userID + " | " + this.firstName + " " + this.lastName;

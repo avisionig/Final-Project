@@ -14,7 +14,7 @@ import PaperPackage.TaskPaperType;
 import nonUserPackage.*;
 import uniSystemPackage.Database;
 
-public class Student extends User{
+public class Student extends User implements Scheduleable{
 	private static final long serialVersionUID = 7227165493952096441L;
 	protected int yearOfEducation = 1;
 	protected Faculty faculty = null;
@@ -100,14 +100,14 @@ public class Student extends User{
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 			String courseName = br.readLine();
-			Course c = Database.findCoursebyName(courseName);
+			Course c = Database.accessDB().findCoursebyName(courseName);
 			Lesson l = this.schedule.findLessonByCourse(c);
 			l.viewTasks();
 			System.out.println("Choose task name and type:");
 			String task = br.readLine();
 			StringTokenizer st = new StringTokenizer(task, " ");
 			TaskPaper tp = l.getTaskPaperByNameAndType(st.nextToken(), TaskPaperType.valueOf(st.nextToken()));
-			Database.findTeacherByID(tp.getSender()).checkDoneTask(new DoneTaskPaper(tp, this.userID));
+			Database.accessDB().findTeacherByID(tp.getSender()).checkDoneTask(new DoneTaskPaper(tp, this.userID));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -116,11 +116,11 @@ public class Student extends User{
 	public Request registerTo() throws IOException {
 		String courseID;
 		System.out.println("Choose course:");
-		Database.viewAllCourses();
+		Database.accessDB().viewAllCourses();
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		System.out.print("Write courseID:");
 		courseID = in.readLine();
-		Course c = Database.findCoursebyID(courseID);
+		Course c = Database.accessDB().findCoursebyID(courseID);
 		if(c == null) {
 			while(true) {
 				System.out.println("Incorrect course ID, try again?\1.Yes\2.No");
@@ -130,7 +130,7 @@ public class Student extends User{
 				}
 				else {
 					courseID = in.readLine();
-					c = Database.findCoursebyID(courseID);
+					c = Database.accessDB().findCoursebyID(courseID);
 					if ( c != null) {
 						break;
 					}
@@ -140,7 +140,7 @@ public class Student extends User{
 		c.viewCourseTeachers();
 		System.out.println("Which teacher you want to choose:");
 		String teacherID = in.readLine();
-		Teacher t = Database.findTeacherByID(teacherID);
+		Teacher t = Database.accessDB().findTeacherByID(teacherID);
 		if(t == null) {
 			while(true) {
 				System.out.println("Incorrect teacher ID, try again?\1.Yes\2.No");
@@ -150,7 +150,7 @@ public class Student extends User{
 				}
 				else {
 					teacherID = in.readLine();
-					t = Database.findTeacherByID(teacherID);
+					t = Database.accessDB().findTeacherByID(teacherID);
 					if ( t != null) {
 						break;
 					}
@@ -163,18 +163,90 @@ public class Student extends User{
 		String lessonInfo = in.readLine();
 		return new Request(courseID + " " + teacherID + " " + lessonInfo ,this, RequestType.values()[0]);
 	}
+	
+	
 	public boolean equals(Object o) {
 		if (!super.equals(o)) return false;
 		Student s = (Student)o;
 		return this.yearOfEducation == s.yearOfEducation && this.faculty == s.faculty;
 	}
 	
+	
+	public void getSubscription() {
+		Librarian.getLibrarian().addLibrarySubscription(this);
+		System.out.println("Added");
+	}
+	
+	
+	public void getBook() {
+		Database.accessDB().viewBooks();
+		System.out.println("Write bookID you want to get:");
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			String bookID = in.readLine();
+			Book b = Database.accessDB().findBookByID(bookID);
+			Librarian.getLibrarian().giveBook(this, b);
+			System.out.println("Added");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void readBooks() {
+		LibrarySubscription ls = Librarian.getLibrarian().findLibrarySubscriptionByStudentId(this.userID);
+		if(ls != null) { 
+			int i = 1;
+			for(Book b : ls.getBooksInSubscriptions()) {
+				System.out.println(i + "." + b);
+			}
+			try {
+				System.out.println("Choose book:");
+				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+				int book = Integer.parseInt(in.readLine());
+				System.out.println(ls.getBooksInSubscriptions().elementAt(book - 1).getContent());
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void library(BufferedReader input) {
+		while(true) {System.out.println("1.Get subscription\n2.Get book\n3.Read book\n4.Leave");
+			try {
+				int ac = Integer.parseInt(input.readLine());
+				if (ac == 1) {
+					this.getSubscription();
+				}
+				else if(ac == 2) {
+					this.getBook();
+				}
+				else if (ac == 3) {
+					this.readBooks();
+				}
+				else if(ac == 4) {
+					return;
+				}
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
 	public void userMenu(BufferedReader input) {
 		while(true) {
 			super.userMenu(input);
-			System.out.println("1.register to course\n2.Attendance\n3.Check tasks\n4.View news");
+			System.out.println("1.register to course\n2.Attendance\n3.Check tasks\n4.View new\n5.library\n6.Create organization");
 			String action;
 			try {
+				if(this.researcherAccount != null) {
+					System.out.println("7.Do science");
+				}
 				action = input.readLine();
 		
 				if(action.equals("Q")) {
@@ -184,7 +256,7 @@ public class Student extends User{
 				if(ac == 1) {
 					Request r = this.registerTo();
 					if(r != null) {
-						Database.getRequests().add(r);
+						Database.accessDB().getRequests().add(r);
 					}
 					else {
 						System.out.println("Error in system, please try again");
@@ -199,9 +271,14 @@ public class Student extends User{
 				else if(ac == 4) {
 					this.viewNews();
 				}
+				else if(ac == 5) {
+					this.library(input);;
+				}
+				else if(ac == 6) {
+					Dean.deaning().createOrganization(this);
+				}
 				if(this.researcherAccount != null) {
-					System.out.println("5.Do science");
-					if(ac == 5) {
+					if(ac == 7) {
 						this.researcherAccount.userMenu(input);
 					}
 				}

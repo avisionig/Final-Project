@@ -16,7 +16,7 @@ public class Schedule implements Serializable{
 	}
 	public void addLesson(Lesson les) {
 		for(Lesson l : lessons) {
-			if(l.timeEquality(les) || (l.timeEquality(les) && l.roomEquality(les))) {
+			if(l.timeCollsision(les)) {
 				System.out.println("There is a collision!");
 				return;
 			}

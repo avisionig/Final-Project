@@ -27,6 +27,6 @@ public class TaskPaper extends Paper{
 	}
 	
 	public String toString() {
-		return super.toString() + this.taskType.name();
+		return super.toString() + " " + this.taskType.name();
 	}
 }

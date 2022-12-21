@@ -29,7 +29,7 @@ public final class Admin extends User{
 	}
 	public User addUser() {
 		System.out.println("Who you want to add?");
-		System.out.println("1.Student\n2.Teacher\n3.Manager\n4.Librarian\n5.Dean");
+		System.out.println("1.Student\n2.Teacher\n3.Manager");
 		try {
 			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 			int line = Integer.parseInt(input.readLine());
@@ -61,7 +61,7 @@ public final class Admin extends User{
 	}
 	public void deleteUser() {
 		System.out.println("Who you want to delete?:");
-		System.out.println("1.Student\n2.Teacher\n3.Manager\n4.Librarian\n5.Dean");
+		System.out.println("1.Student\n2.Teacher\n3.Manager");
 		try {
 			BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 			int line = Integer.parseInt(input.readLine());
@@ -69,19 +69,19 @@ public final class Admin extends User{
 			String login = input.readLine();
 			User u;
 			if(line == 1) {
-				u = Database.findStudentbyLogin(login);
-				Database.getLogs().add(new Log(LogAction.DELETED, u.toString()));
-				Database.getStudents().remove(u);	
+				u = Database.accessDB().findStudentbyLogin(login);
+				Database.accessDB().getLogs().add(new Log(LogAction.DELETED, u.toString()));
+				Database.accessDB().getStudents().remove(u);	
 			}
 			else if (line == 2) {
-				u = Database.findTeacherByLogin(login);
-				Database.getLogs().add(new Log(LogAction.DELETED, u.toString()));
-				Database.getTeachers().remove(u);
+				u = Database.accessDB().findTeacherByLogin(login);
+				Database.accessDB().getLogs().add(new Log(LogAction.DELETED, u.toString()));
+				Database.accessDB().getTeachers().remove(u);
 			}
 			else if (line == 3) {
-				u = Database.findManagerbyLogin(login);
-				Database.getLogs().add(new Log(LogAction.DELETED, u.toString()));
-				Database.getManagers().remove(u);
+				u = Database.accessDB().findManagerbyLogin(login);
+				Database.accessDB().getLogs().add(new Log(LogAction.DELETED, u.toString()));
+				Database.accessDB().getManagers().remove(u);
 			}
 		}
 		catch(IOException ioe) {
@@ -104,27 +104,27 @@ public final class Admin extends User{
 					User newUser = Admin.adminning().addUser();
 					
 					if (newUser instanceof Student) {
-						Database.getStudents().add((Student) newUser);
+						Database.accessDB().getStudents().add((Student) newUser);
 					}
 					else if (newUser instanceof Teacher) {
-						Database.getTeachers().add((Teacher) newUser);
+						Database.accessDB().getTeachers().add((Teacher) newUser);
 					}
 					else if (newUser instanceof Manager) {
-						Database.getManagers().add((Manager) newUser);
+						Database.accessDB().getManagers().add((Manager) newUser);
 					}
 					else if(newUser == null) {
 						System.out.println("Error! Null user.");
 						}
-					Database.getLogs().add(new Log(LogAction.ADDED, newUser.toString()));
+					Database.accessDB().getLogs().add(new Log(LogAction.ADDED, newUser.toString()));
 					}
 				else if(ac == 2) {
-					Database.viewAllUsers();
+					Database.accessDB().viewAllUsers();
 				}
 				else if(ac == 3) {
 					Admin.adminning().deleteUser();
 				}
 				else if(ac == 4) {
-					Database.viewLogs();
+					Database.accessDB().viewLogs();
 				}
 				else if(ac == 5) {
 					Admin.adminning().viewNews();

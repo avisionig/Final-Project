@@ -15,7 +15,7 @@ import PaperPackage.TaskPaperType;
 import nonUserPackage.*;
 import uniSystemPackage.Database;
 
-public class Teacher extends Employee{
+public class Teacher extends Employee implements Scheduleable{
 	protected Schedule teacherSchedule;
 	protected TeacherDegree degree;
 	protected Vector<TaskPaper> allCreatedTasks;
@@ -50,9 +50,9 @@ public class Teacher extends Employee{
 		System.out.println("Choose course by ID");
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String courseID = in.readLine();
-		Course c = Database.findCoursebyID(courseID);
+		Course c = Database.accessDB().findCoursebyID(courseID);
 		if(c.getCourseTeachers().contains(this)) {
-			for(Student s : Database.getStudents()) {
+			for(Student s : Database.accessDB().getStudents()) {
 				if(s.getSchedule().findLessonByTeacher(this) != null) {
 					s.getCoursesAndMarks().get(c).closeAttestaion();
 				}
@@ -68,11 +68,11 @@ public class Teacher extends Employee{
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			String courseID = in.readLine();
-			if(Database.findCoursebyID(courseID).getCourseTeachers().contains(this)) {
-				Database.viewStudentsInCourse(courseID, this.userID);
+			if(Database.accessDB().findCoursebyID(courseID).getCourseTeachers().contains(this)) {
+				Database.accessDB().viewStudentsInCourse(courseID, this.userID);
 				System.out.println("Choose student by ID");
 				String studID = in.readLine();
-				Mark m = Database.findStudentbyID(studID).getCoursesAndMarks().get(Database.findCoursebyID(courseID));
+				Mark m = Database.accessDB().findStudentbyID(studID).getCoursesAndMarks().get(Database.accessDB().findCoursebyID(courseID));
 				System.out.println("Put student's mark:");
 				double point = Double.parseDouble(in.readLine());
 				m.setMark(point);
@@ -108,7 +108,7 @@ public class Teacher extends Employee{
 			String lessonTime = br.readLine();
 			StringTokenizer st = new StringTokenizer(lessonTime, ":, ");
 			Lesson l = this.teacherSchedule.findLessonByTime(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Double.parseDouble(st.nextToken()), DayOfWeek.valueOf(st.nextToken())));
-			for(Student s : Database.getStudents()) {
+			for(Student s : Database.accessDB().getStudents()) {
 				if(s.schedule.getLessons().contains(l)) {
 					s.coursesAndMarks.entrySet().stream().filter(c -> c.getKey().equals(l.getLessonCourse())).forEach(c -> c.getValue().launchAttendance());
 				}
@@ -134,7 +134,7 @@ public class Teacher extends Employee{
 		}
 	}
 	public void checkDoneTask(DoneTaskPaper dtp) {
-		Student s = Database.findStudentbyID(dtp.getStudentID());
+		Student s = Database.accessDB().findStudentbyID(dtp.getStudentID());
 		Course c = s.schedule.findLessonByTeacher(this).getLessonCourse();
 		s.coursesAndMarks.get(c).setMark(Math.round((Math.random() * 15 + 15) * 1000)/1000.0);
 	}
@@ -208,6 +208,9 @@ public class Teacher extends Employee{
 			super.userMenu(input);
 			System.out.println("1.Put mark\n2.Close attestaion\n3.Launch attendance for lesson\n4.Tasks\n5.View marks in lesson\n6.View news");
 			try {
+				if(this.researcherAccount != null) {
+					System.out.println("7.Do science");
+				}
 				String action = input.readLine();
 				if(action.equals("Q")) {
 					return;
@@ -233,7 +236,6 @@ public class Teacher extends Employee{
 					this.viewNews();
 				}
 				if(this.researcherAccount != null) {
-					System.out.println("7.Do science");
 					if(ac == 7) {
 						this.researcherAccount.userMenu(input);
 					}

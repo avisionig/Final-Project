@@ -19,7 +19,7 @@ public class UniSystem {
 		while(true) {
 			int acc;
 			Database.accessDB();
-			System.out.println("Login as:\n1.Admin\n2.Student\n3.Teacher\n4.Manager\n5.Dean\n6.Leave");
+			System.out.println("Login as:\n1.Admin\n2.Student\n3.Teacher\n4.Manager\n5.Librarian\n6.Leave");
 			try{
 				BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 				acc = Integer.parseInt(input.readLine());
@@ -30,40 +30,58 @@ public class UniSystem {
 				else if (acc == 2) {
 					System.out.println("Hello! Write login and password of Student:");
 					String loginAndPassword = input.readLine();
-					StringTokenizer st = new StringTokenizer(loginAndPassword);
-					Student s = Database.findStudentbyLogin(st.nextToken());
-					if (s == null) {
+					String lap = User.loginToAccount(input, loginAndPassword);
+					if(lap == null) {
 						System.out.println("Null");
-						break;
+						}
+					else {
+						StringTokenizer st = new StringTokenizer(lap);
+						Student s = Database.accessDB().findStudentbyLogin(st.nextToken());
+						if(!s.checkPassword(st.nextToken())) {
+							System.out.println("Not this time(");
+							break;
+						}
+						s.userMenu(input);
 					}
-					if(!s.checkPassword(st.nextToken())) {
-						System.out.println("Not this time(");
-						break;
-					}
-					s.userMenu(input);
 				}
 				else if(acc == 3) {
 					System.out.println("Hello! Write login and password of Teacher:");
 					String loginAndPassword = input.readLine();
-					StringTokenizer st = new StringTokenizer(loginAndPassword);
-					Teacher t = Database.findTeacherByLogin(st.nextToken());
-					if(!t.checkPassword(st.nextToken())) {
-						System.out.println("Not this time(");
-						break;
+					String lap = User.loginToAccount(input, loginAndPassword);
+					if(lap == null) {
+						System.out.println("Null");
+						}
+					else {
+						StringTokenizer st = new StringTokenizer(lap);
+						Teacher t = Database.accessDB().findTeacherByLogin(st.nextToken());
+						if(!t.checkPassword(st.nextToken())) {
+							System.out.println("Not this time(");
+							break;
+						}
+						t.userMenu(input);
 					}
-					t.userMenu(input);
 				}
 				else if (acc == 4) {
 						System.out.println("Hello! Write login and password of Manager:");
 						String loginAndPassword = input.readLine();
-						StringTokenizer st = new StringTokenizer(loginAndPassword);
-						Manager m = Database.findManagerbyLogin(st.nextToken());
-						if(!m.checkPassword(st.nextToken())) {
-							System.out.println("Not this time(");
-							break;
+						String lap = User.loginToAccount(input, loginAndPassword);
+						if(lap == null) {
+							System.out.println("Null");
+							}
+						else {
+							StringTokenizer st = new StringTokenizer(lap);
+							Manager m = Database.accessDB().findManagerbyLogin(st.nextToken());
+							if(!m.checkPassword(st.nextToken())) {
+								System.out.println("Not this time(");
+								break;
+							}
+							m.userMenu(input);
 						}
-						m.userMenu(input);
 						
+				}
+				else if (acc == 5) {
+					System.out.println("Hello, Librarian!");
+					Librarian.getLibrarian().userMenu(input);
 				}
 				else if (acc == 6) {
 					System.out.print("GoodBye!");

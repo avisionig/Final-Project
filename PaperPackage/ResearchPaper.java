@@ -20,7 +20,9 @@ public class ResearchPaper extends Paper {
 		ResearchPaper rp = (ResearchPaper)o;
 		return this.researchContent.equals(rp.researchContent);
 	}
-	
+	public String getResearchContent() {
+		return this.researchContent;
+	}
 	public String toString() {
 		return this.paperName + " | " + this.sender + " | " + this.date + " | " + this.researchContent; 
 	}

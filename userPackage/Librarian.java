@@ -1,117 +1,146 @@
 package userPackage;
 
 import nonUserPackage.Book;
+
 import nonUserPackage.LibrarySubscription;
 import uniSystemPackage.Database;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringTokenizer;
+import java.util.Vector;
 import java.util.stream.Collectors;
 
-public class Librarian extends Employee implements LibraryRegister {
-
+public class Librarian extends User {
+	
 	private static final long serialVersionUID = -8023422525795240858L;
-	private List<LibrarySubscription> subscriptionList = new ArrayList<>();
+	
+	
+	private static Librarian librarian = new Librarian("Super", "Librarian");
+	private Librarian(String firstName, String lastName) {
+		super(firstName, lastName);
+		this.setUserID();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public static Librarian getLibrarian() {
+		return librarian;
+	}
 
-    protected Librarian(String firstName, String lastName, LocalDate hireDate) {
-        super(firstName, lastName, hireDate);
+    public Vector<LibrarySubscription> getSubscriptions() {
+        return Database.accessDB().getSubscriptions();
     }
 
-    public List<LibrarySubscription> getSubscriptionList() {
-        return subscriptionList;
-    }
-
-    public void setSubscriptionList(List<LibrarySubscription> subscriptionList) {
-        this.subscriptionList = subscriptionList;
-    }
 
     public void giveBook(Student student, Book book) {
-        if (findLibrarySubscriptionByStudentId(student.getUserID()) == null) {
-            addLibrarySubscription(student, book);
-        } else {
-            updateLibrarySubscription(student, book);
+    	LibrarySubscription ls =  findLibrarySubscriptionByStudentId(student.getUserID());
+        if (ls != null) {
+        	ls.addBook(book);
         }
     }
-
-    public void addBook(Book book) {
-        Database.getBooks().add(book);
+    
+    public void createBook() {
+    	System.out.println("Write book name, author:");
+    	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    	String bookInfo;
+		try {
+			bookInfo = in.readLine();
+			StringTokenizer st = new StringTokenizer(bookInfo);
+			System.out.println("Write books content:");
+			String bookContent = in.readLine();
+			addBookInDatabase(new Book(st.nextToken(), st.nextToken(), LocalDate.now(), bookContent));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    public void addBookInDatabase(Book book) {
+        Database.accessDB().getBooks().add(book);
     }
 
     //--
-    @Override
     public void showBooks() {
-        Database.getBooks().forEach(System.out::println);
+        Database.accessDB().getBooks().forEach(System.out::println);
     }
 
-    @Override
+    
     public void showSubscriptions() {
-        subscriptionList.forEach(System.out::println);
+    	Database.accessDB().getSubscriptions().forEach(System.out::println);
     }
 
-    @Override
-    public void addLibrarySubscription(Student student, Book book) {
+    
+    public void addLibrarySubscription(Student student) {
         String id = String.valueOf((int) (Math.random() * 1000 + 100));
         if (findLibrarySubscriptionById(id) != null) {
+        	System.out.println("Subscription with this ID exists");
             return;
         }
-        subscriptionList.add(new LibrarySubscription(id, student, book));
+        Database.accessDB().getSubscriptions().add(new LibrarySubscription(id, student));
     }
 
-    @Override
+    
     public LibrarySubscription findLibrarySubscriptionByStudentId(String studentId) {
-        List<LibrarySubscription> collect = subscriptionList.stream().filter(s -> Objects.equals(s.getStudent().getUserID(), studentId)).collect(Collectors.toList());
+        List<LibrarySubscription> collect = Database.accessDB().getSubscriptions().stream().filter(s -> Objects.equals(s.getStudent().getUserID(), studentId)).collect(Collectors.toList());
         if (collect.size() != 0) {
             return collect.get(0);
         }
         return null;
     }
-
-    @Override
-    public LibrarySubscription findLibrarySubscriptionByBookId(String bookId) {
-        return subscriptionList.stream().filter(s -> Objects.equals(s.getBook().getBookId(), bookId)).collect(Collectors.toList()).get(0);
-    }
-
-    @Override
+    
     public LibrarySubscription findLibrarySubscriptionById(String subscriptionId) {
-        List<LibrarySubscription> collect = subscriptionList.stream().filter(s -> Objects.equals(subscriptionId, s.getSubscriptionId())).collect(Collectors.toList());
+        List<LibrarySubscription> collect = Database.accessDB().getSubscriptions().stream().filter(s -> Objects.equals(subscriptionId, s.getSubscriptionId())).collect(Collectors.toList());
         if (collect.size() == 0) {
             return null;
         }
         return collect.get(0);
     }
-
-    @Override
-    public List<LibrarySubscription> findAllLibrarySubscriptions() {
-        return new ArrayList<>(subscriptionList);
-    }
-
-    @Override
-    public void updateLibrarySubscription(Student student, Book book) {
-        LibrarySubscription librarySubscription = findLibrarySubscriptionByStudentId(student.getUserID());
-        int i = findAllLibrarySubscriptions().indexOf(librarySubscription);
-        if (librarySubscription == null) {
-            return;
-        }
-        librarySubscription.setBook(book);
-        librarySubscription.setStudent(student);
-        subscriptionList.set(i, librarySubscription);
-    }
-
-    @Override
+    
+    
     public void removeLibrarySubscription(String subscriptionId) {
         LibrarySubscription librarySubscription = findLibrarySubscriptionById(subscriptionId);
-        subscriptionList.remove(librarySubscription);
+        Database.accessDB().getSubscriptions().remove(librarySubscription);
     }
 
-    @Override
-    public void removeAll() {
-        subscriptionList.clear();
+
+    protected void setUserID(){
+        this.userID = "LIBRARIAN777";
+    }
+    
+    public void userMenu(BufferedReader in) {
+    	while(true) {
+    		super.userMenu(in);
+    		System.out.println("1.Add book\n2.View books\n3.View subscriptions\n4.Delete subscription");
+    		String action;
+			try {
+				action = in.readLine();
+				if(action.equals("Q")) {
+					return;
+				}
+				int ac = Integer.parseInt(action);
+				if(ac == 1) {
+					this.createBook();
+				}
+				else if(ac == 2) {
+					this.showBooks();
+				}
+				else if(ac == 3) {
+					this.showSubscriptions();
+				}
+				else if(ac == 4) {
+					this.showSubscriptions();
+					String subID = in.readLine();
+					this.removeLibrarySubscription(subID);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    		
+    	}
     }
 
-    @Override
-    void setUserID() {
-        this.userID = String.valueOf("21B0" + String.valueOf((int) (Math.random() * 1000 + 78)));
-    }
 }

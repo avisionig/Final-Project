@@ -56,6 +56,12 @@ public class Time implements Serializable{
 	public String toString() {
 		return this.zeroCorrector(startHour)+ ":" + this.zeroCorrector(startMin) + " | " + this.zeroCorrector(endHour)+ ":"+ this.zeroCorrector(endMin);
 	}
+	public boolean hourCollision(Time t) {
+		if(this.startHour <= t.startHour && this.endHour >= t.startHour && this.startHour <= t.endHour && this.endHour <= t.endHour && this.dayOfWeek.equals(t.dayOfWeek)) {
+			return true;
+		}
+		return false;
+	}
 	public boolean equals(Object o) {//you have to pass Object here, to be discussed later. 
 		//this is our basic version
 		if(o == null) return false;

@@ -42,7 +42,7 @@ public class Manager extends Employee{
 			if(prereqYesOrNo == 1 ) {
 				System.out.print("Write prerequesite name:");
 				String prereqName = in.readLine();
-				Course prereq = Database.findCoursebyName(prereqName);
+				Course prereq = Database.accessDB().findCoursebyName(prereqName);
 				return new Course(st.nextToken(), Integer.parseInt(st.nextToken()),Faculty.values()[fac - 1], prereq);
 			}
 			else {
@@ -74,40 +74,40 @@ public class Manager extends Employee{
 	
 	public void checkRequests() throws IOException {
 		System.out.println("All requests:");
-		Database.viewAllRequests();
+		Database.accessDB().viewAllRequests();
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String reqID = in.readLine();
-		Request r = Database.findRequestByID(reqID);
+		Request r = Database.accessDB().findRequestByID(reqID);
 		if(r.getRequestType() == RequestType.ADDDROP) {
 			System.out.println("1.Add\n2.No");
 			int action = Integer.parseInt(in.readLine());
 			if (action == 1) {
 				Student s = (Student) r.getRequestAuthor();
 				StringTokenizer st = new StringTokenizer(r.getDesctiption(), ": ");
-				Course c = Database.findCoursebyID(st.nextToken());
+				Course c = Database.accessDB().findCoursebyID(st.nextToken());
 				if(c == null) {
 					System.out.println("Error no such course");
-					Database.getRequests().remove(r);
+					Database.accessDB().getRequests().remove(r);
 					return;
 				}
-				Teacher t = Database.findTeacherByID(st.nextToken());
+				Teacher t = Database.accessDB().findTeacherByID(st.nextToken());
 				if(t == null) {
 					System.out.println("Error no such teacher");
-					Database.getRequests().remove(r);
+					Database.accessDB().getRequests().remove(r);
 					return;
 				}
 				Lesson l = t.getSchedule().findLessonByFullInfo(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Double.parseDouble(st.nextToken()), DayOfWeek.valueOf(st.nextToken())), t, c, Integer.parseInt(st.nextToken()));
 				if(l == null) {
 					System.out.println("Error no such teacher");
-					Database.getRequests().remove(r);
+					Database.accessDB().getRequests().remove(r);
 					return;
 				}
 				s.getCoursesAndMarks().put(c, new Mark());
 				s.getSchedule().addLesson(l);
-				Database.getRequests().remove(r);
+				Database.accessDB().getRequests().remove(r);
 			}
 			else {
-				Database.getRequests().remove(r);
+				Database.accessDB().getRequests().remove(r);
 			}
 		}
 		else if(r.getRequestType() == RequestType.DOCUMENT) {
@@ -117,18 +117,18 @@ public class Manager extends Employee{
 	
 	
 	public void manageCourse() throws IOException {
-		Database.viewAllCourses();
+		Database.accessDB().viewAllCourses();
 		System.out.println("Choose course by ID");
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String courseID = in.readLine();
-		Course c = Database.findCoursebyID(courseID);
+		Course c = Database.accessDB().findCoursebyID(courseID);
 		System.out.println("1.Set teacher\n2.Manage lessons\n3.Delete teacher");
 		int action = Integer.parseInt(in.readLine());
 		if(action == 1) {
-			Database.viewAllTeachers();
+			Database.accessDB().viewAllTeachers();
 			System.out.print("Write teacher ID:");
 			String teacherID = in.readLine();
-			c.getCourseTeachers().add(Database.findTeacherByID(teacherID));
+			c.getCourseTeachers().add(Database.accessDB().findTeacherByID(teacherID));
 			System.out.println("Teacher added!");
 		}
 		else if(action == 2) {
@@ -138,13 +138,13 @@ public class Manager extends Employee{
 			System.out.println("Which teacher lesson it will be:");
 			c.viewCourseTeachers();
 			String teacherID = in.readLine();
-			Teacher t = Database.findTeacherByID(teacherID);
+			Teacher t = Database.accessDB().findTeacherByID(teacherID);
 			t.getSchedule().addLesson(new Lesson(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Double.parseDouble(st.nextToken()), DayOfWeek.valueOf(st.nextToken())), t, c, Integer.parseInt(st.nextToken())));
 		}
 		else if(action == 3) {
 			System.out.print("Write teacher ID: ");
 			String teacherID = in.readLine();
-			c.getCourseTeachers().remove(Database.findTeacherByID(teacherID));
+			c.getCourseTeachers().remove(Database.accessDB().findTeacherByID(teacherID));
 			System.out.println("Teacher deleted");
 		}
 	}
@@ -165,7 +165,7 @@ public class Manager extends Employee{
 				else if(ac == 2) {
 					Course c = this.createCourse();
 					if(c != null) {
-						Database.getCourses().add(c);
+						Database.accessDB().getCourses().add(c);
 					}
 					else {
 						System.out.println("Error");
@@ -174,7 +174,7 @@ public class Manager extends Employee{
 				else if(ac == 3) {
 					News n = this.createNews();
 					if(n != null) {
-						Database.getNews().add(n);
+						Database.accessDB().getNews().add(n);
 					}
 					else {
 						System.out.println("Error");

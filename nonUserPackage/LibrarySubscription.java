@@ -1,20 +1,26 @@
 package nonUserPackage;
 
 
+import java.io.Serializable;
+import java.util.Vector;
+
 import userPackage.Student;
 
-public class LibrarySubscription {
-    private String subscriptionId;
-    private Student student;
-    private Book book;
+public class LibrarySubscription implements Serializable{
 
+	private static final long serialVersionUID = -2163718416223210678L;
+	private String subscriptionId;
+    private Student student;
+    private Vector<Book> books;
+    {
+    	books = new Vector<Book>();
+    }
     public LibrarySubscription() {
     }
 
-    public LibrarySubscription(String subscriptionId, Student student, Book book) {
+    public LibrarySubscription(String subscriptionId, Student student) {
         this.subscriptionId = subscriptionId;
         this.student = student;
-        this.book = book;
     }
 
     public String getSubscriptionId() {
@@ -32,20 +38,18 @@ public class LibrarySubscription {
     public void setStudent(Student student) {
         this.student = student;
     }
-
-    public Book getBook() {
-        return book;
+    public Vector<Book> getBooksInSubscriptions(){
+    	return this.books;
     }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
+   public void addBook(Book book) {
+	   this.books.add(book);
+   }
 
     @Override
     public String toString() {
         return "LibrarySubscription: " +
-                "subscriptionId: " + subscriptionId+
+                "subscriptionID: " + subscriptionId+
                 " | student: " + student +
-                " | book: " + book;
+                " | books: " + books.size();
     }
 }

@@ -11,7 +11,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Librarian extends Employee implements LibraryRegister {
-    private List<LibrarySubscription> subscriptionList = new ArrayList<>();
+
+	private static final long serialVersionUID = -8023422525795240858L;
+	private List<LibrarySubscription> subscriptionList = new ArrayList<>();
 
     protected Librarian(String firstName, String lastName, LocalDate hireDate) {
         super(firstName, lastName, hireDate);

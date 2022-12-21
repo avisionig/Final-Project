@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Paper implements Serializable{
+public class Paper implements Serializable, Comparable<Paper>{
 
 	private static final long serialVersionUID = -5521859643283924756L;
 	protected String paperName, sender;
@@ -41,8 +41,8 @@ public class Paper implements Serializable{
 //	}
 	
 	public int compareTo(Paper o) {
-		if(this.sender.compareToIgnoreCase(o.sender) == 1) return 1;
-		else if(this.sender.compareToIgnoreCase(o.sender) == -1) return -1;
+		if(this.paperName.compareToIgnoreCase(o.paperName) == 1) return 1;
+		else if(this.paperName.compareToIgnoreCase(o.paperName) == -1) return -1;
 		return 0;
 	}
 	

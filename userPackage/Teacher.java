@@ -19,6 +19,7 @@ public class Teacher extends Employee{
 	protected Schedule teacherSchedule;
 	protected TeacherDegree degree;
 	protected Vector<TaskPaper> allCreatedTasks;
+	private TeacherResearcher researcherAccount;
 	private static final long serialVersionUID = 1051055956846350581L;
 	{	
 		allCreatedTasks = new Vector<TaskPaper>();
@@ -28,6 +29,9 @@ public class Teacher extends Employee{
 		super(firstName, lastName, hireDate);
 		this.degree = degree;
 		this.setUserID();
+		if(this.degree.equals(TeacherDegree.PROFFESOR)) {
+			this.researcherAccount = new TeacherResearcher(this);
+		}
 	}
 	
 	public Schedule getSchedule() {
@@ -227,6 +231,12 @@ public class Teacher extends Employee{
 				}
 				else if(ac == 6) {
 					this.viewNews();
+				}
+				if(this.researcherAccount != null) {
+					System.out.println("7.Do science");
+					if(ac == 7) {
+						this.researcherAccount.userMenu(input);
+					}
 				}
 			} catch (IOException e) {
 				System.out.println("Somethinhg bad happened!");

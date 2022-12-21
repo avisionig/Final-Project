@@ -24,7 +24,7 @@ public class Student extends User{
 	protected HashMap<Course, Mark> coursesAndMarks;
 	protected Mark studMarks;
 	protected Schedule schedule;
-	
+	private StudentResearcher researcherAccount;
 	{
 		schedule = new Schedule();
     	coursesAndMarks = new HashMap<Course,Mark>();
@@ -35,6 +35,9 @@ public class Student extends User{
 		this.faculty = faculty;
 		this.degree = degree;
 		this.setUserID();
+		if(this.degree.equals(StudentDegree.PHD)) {
+			this.researcherAccount = new StudentResearcher(this);
+		}
 		
 	}
 	protected void setUserID() {
@@ -195,6 +198,12 @@ public class Student extends User{
 				}
 				else if(ac == 4) {
 					this.viewNews();
+				}
+				if(this.researcherAccount != null) {
+					System.out.println("5.Do science");
+					if(ac == 5) {
+						this.researcherAccount.userMenu(input);
+					}
 				}
 			} 	catch (IOException e) {
 				System.out.println("Somethinhg bad happened!");

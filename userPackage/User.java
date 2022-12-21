@@ -24,7 +24,7 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     	this.lastName = lastName;
     	this.login = (firstName.charAt(0) + "_" + lastName).toLowerCase();
     	this.password = (firstName + lastName).toLowerCase();
-    	if(!(this instanceof Admin))System.out.println("Login: " + this.getLogin() + " | password: " + this.getPassword());
+    	if(!(this instanceof Admin) || !(this instanceof ResearchDecorator))System.out.println("Login: " + this.getLogin() + " | password: " + this.getPassword());
     	
     }
     abstract void setUserID(); 
@@ -38,19 +38,7 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     public String getPassword(){
     	return this.password;
     }
-    
-//    private void setPassword() {
-//    	System.out.print("Type for " + this.login + " user:");
-//        try{
-//        	BufferedReader passReader = new BufferedReader( new InputStreamReader(System.in));
-//        	String password = passReader.readLine();
-//        	this.password = password;
-//        	System.out.println("Password is set");
-//        	passReader.close();}
-//        catch(IOException ioe) {
-//        	System.out.println("Something is wrong!");
-//        }
-//    }
+
     public void changePassword() {
     	System.out.print("Type old password:");
         try{

@@ -1,7 +1,11 @@
 package userPackage;
 
 import java.time.LocalDate;
-
+/**
+ * child class of User and parent class of Teacher and Manager.
+ * there is salary field and methods, but I think they are not so important in system.
+ * it's abstract because we don't have some special Employee users, no sense in it.
+ */
 public abstract class Employee extends User{
 
 	private static final long serialVersionUID = -4441041619534116664L;

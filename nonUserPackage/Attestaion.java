@@ -1,7 +1,10 @@
 package nonUserPackage;
 
 import java.io.Serializable;
-
+/**
+ * Attestation has field of score and status of attestation, if it's closed scores can't be put anymore.
+ * @see nonUserPackage.Mark
+ */
 public class Attestaion implements Serializable{
 
 	private static final long serialVersionUID = -90014145549590878L;

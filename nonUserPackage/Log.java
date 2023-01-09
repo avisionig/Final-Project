@@ -1,7 +1,10 @@
 package nonUserPackage;
 
 import java.io.Serializable;
-
+/**
+ * Class that show some actions that happened in system.
+ *
+ */
 public class Log implements Serializable{
 
 	private static final long serialVersionUID = -5704811149581133639L;

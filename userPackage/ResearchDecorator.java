@@ -9,7 +9,10 @@ import java.util.Vector;
 import PaperPackage.ResearchPaper;
 import nonUserPackage.Book;
 import uniSystemPackage.Database;
-
+/**
+ * Researcher class, extends in Student- and TeacherResearcher
+ *
+ */
 public class ResearchDecorator extends User implements Research{
 	private static final long serialVersionUID = -398218604779845006L;
 	protected Vector<ResearchPaper> researches;
@@ -20,7 +23,9 @@ public class ResearchDecorator extends User implements Research{
 		super(firstName, lastName);
 	}
 
-
+	/**
+	 * To write articles, articles can be pusblished then
+	 */
 	public void doScience() {
 		System.out.println("Write article name:");
 		try {
@@ -35,6 +40,9 @@ public class ResearchDecorator extends User implements Research{
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Publishes created articles from vector of research papers. Published articles added to database
+	 */
 	public void publishResearch() {
 		this.viewResearches();
 		System.out.println("Choose number of research to publish");
@@ -58,7 +66,11 @@ public class ResearchDecorator extends User implements Research{
 	protected void setUserID() {
 		this.userID = "SCI0" + String.valueOf((int)(Math.random()*1000+78));
 	}
-	
+	/**
+	 * user menu for researcher, invokes in student or teacher
+	 * @see userPackage.Student#userMenu(BufferedReader)
+	 *  @see userPackage.Teacher#userMenu(BufferedReader)
+	 */
 	public void userMenu(BufferedReader input) {
 		System.out.println("1.Do Science\n2.Publish work");
 		String action;

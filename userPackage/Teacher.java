@@ -14,7 +14,11 @@ import PaperPackage.TaskPaper;
 import PaperPackage.TaskPaperType;
 import nonUserPackage.*;
 import uniSystemPackage.Database;
-
+/**
+ * class of Teacher puts marks, sets attendance,creates tasks.
+ * If teacher is PROFESSOR, teacher can do researches.
+ * Difference between tutor, lecturers wasn't written.
+ */
 public class Teacher extends Employee implements Scheduleable{
 	protected Schedule teacherSchedule;
 	protected TeacherDegree degree;
@@ -46,7 +50,12 @@ public class Teacher extends Employee implements Scheduleable{
 	public TeacherDegree getTeacherDegree() {
 		return this.degree;
 	}
-	public void closeAttestaion() throws IOException {
+	/**
+	 * closes Attestation for students that have this teacher has in course.
+	 * @see nonUserPackage.Mark#closeAttestaion()  
+	 * @throws IOException
+	 */
+	public void closeAttestation() throws IOException {
 		System.out.println("Choose course by ID");
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String courseID = in.readLine();
@@ -62,7 +71,10 @@ public class Teacher extends Employee implements Scheduleable{
 			System.out.println("You don't have such course");
 		}
 	}
-	
+	/** 
+	 * Puts score/point/mark to student in course 
+	 * @see nonUserPackage.Mark#setMark(double)
+	 */
 	public void putMark() {
 		System.out.println("Choose course by ID");
 		try {
@@ -85,6 +97,9 @@ public class Teacher extends Employee implements Scheduleable{
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Method to see marks of students in some lesson
+	 */
 	public void viewStudentsMarksInLesson() {
 		System.out.println("All lessons:\n" + this.teacherSchedule);
 		try {
@@ -100,6 +115,10 @@ public class Teacher extends Employee implements Scheduleable{
 			System.out.println("Error!");
 		}
 	}
+	/**
+	 * sets Attendance for students in lesson
+	 * @see userPackage.Student#checkAttendance()
+	 */
 	public void launchAttendance(){
 		System.out.println("All lessons:\n" + this.teacherSchedule);
 		try {
@@ -119,7 +138,34 @@ public class Teacher extends Employee implements Scheduleable{
 			System.out.println("Error!");
 		}
 	}
-	
+	public void closeAttendance(){
+		System.out.println("All lessons:\n" + this.teacherSchedule);
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			System.out.println("Type lesson time(starting time 00:00 format, duration and day):");
+			String lessonTime = br.readLine();
+			StringTokenizer st = new StringTokenizer(lessonTime, ":, ");
+			Lesson l = this.teacherSchedule.findLessonByTime(new Time(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Double.parseDouble(st.nextToken()), DayOfWeek.valueOf(st.nextToken())));
+			for(Student s : Database.accessDB().getStudents()) {
+				if(s.schedule.getLessons().contains(l)) {
+					s.coursesAndMarks.entrySet().stream().filter(c -> c.getKey().equals(l.getLessonCourse())).forEach(c-> {
+						if(c.getValue().getAttendanceStatus() == true) {
+							c.getValue().increaseAbsence();
+							c.getValue().closeAttendance();
+						}
+					});
+				}
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error!");
+		}
+	}
+	/**
+	 * create tasks and adds it in vector of tasks
+	 * tasks than can be set to some lesson 
+	 */
 	public void createTask() {
 		System.out.println("Create task:(it's name and type(HW, MID) capital letters");
 		try {
@@ -133,11 +179,17 @@ public class Teacher extends Employee implements Scheduleable{
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * this method puts mark for task that was done by student 
+	 * @see userPackage.Student#checkTasks()
+	 * @param dtp
+	 */
 	public void checkDoneTask(DoneTaskPaper dtp) {
 		Student s = Database.accessDB().findStudentbyID(dtp.getStudentID());
 		Course c = s.schedule.findLessonByTeacher(this).getLessonCourse();
 		s.coursesAndMarks.get(c).setMark(Math.round((Math.random() * 15 + 15) * 1000)/1000.0);
 	}
+	
 	public void viewTasks() {
 		int i = 1;
 		for(TaskPaper tp : this.allCreatedTasks) {
@@ -145,6 +197,9 @@ public class Teacher extends Employee implements Scheduleable{
 			i++;
 		}
 	}
+	/**
+	 * sets for lesson task from vector of task
+	 */
 	public void setTasks() {
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -162,6 +217,9 @@ public class Teacher extends Employee implements Scheduleable{
 			System.out.println("Error!");
 		}	
 	}
+	/**
+	 * closes access for task in lesson, students can get only tasks with true value.
+	 */
 	public void closeAccessToTask() {
 		System.out.println("All lessons:\n" + this.teacherSchedule);
 		try {
@@ -180,6 +238,10 @@ public class Teacher extends Employee implements Scheduleable{
 			System.out.println("Error!");
 		}
 	}
+	/**
+	 * connects all methods that related to tasks 
+	 * @param in
+	 */
 	public void tasks(BufferedReader in) {
 		while(true) {
 			System.out.print("What to do?\n1.Create task\n2.Set task\n3.Close access to task\n4.leave\n");
@@ -203,13 +265,17 @@ public class Teacher extends Employee implements Scheduleable{
 			}
 		}
 	}
+	/**
+	 * All important methods of teacher to invoke in UniSystem class.
+	 * @see uniSystemPackage.UniSystem
+	 */
 	public void userMenu(BufferedReader input) {
 		while(true) {
 			super.userMenu(input);
-			System.out.println("1.Put mark\n2.Close attestaion\n3.Launch attendance for lesson\n4.Tasks\n5.View marks in lesson\n6.View news");
+			System.out.println("1.Put mark\n2.Close attestaion\n3.Launch attendance for lesson\n4.Close attendance for lesson\n5.Tasks\n6.View marks in lesson\n7.View news");
 			try {
 				if(this.researcherAccount != null) {
-					System.out.println("7.Do science");
+					System.out.println("8.Do science");
 				}
 				String action = input.readLine();
 				if(action.equals("Q")) {
@@ -221,22 +287,25 @@ public class Teacher extends Employee implements Scheduleable{
 					this.putMark();
 				}
 				else if(ac == 2) {
-					this.closeAttestaion();
+					this.closeAttestation();
 				}
 				else if(ac == 3) {
 					this.launchAttendance();
 				}
 				else if(ac == 4) {
-					this.tasks(input);
+					this.closeAttendance();
 				}
 				else if(ac == 5) {
-					this.viewStudentsMarksInLesson();
+					this.tasks(input);
 				}
 				else if(ac == 6) {
+					this.viewStudentsMarksInLesson();
+				}
+				else if(ac == 7) {
 					this.viewNews();
 				}
 				if(this.researcherAccount != null) {
-					if(ac == 7) {
+					if(ac == 8) {
 						this.researcherAccount.userMenu(input);
 					}
 				}

@@ -5,7 +5,10 @@ import java.io.Serializable;
 import java.util.Vector;
 
 import userPackage.Student;
-
+/**
+ * Class that keeps info about owner of it and books that owner of subscription have.
+ *
+ */
 public class LibrarySubscription implements Serializable{
 
 	private static final long serialVersionUID = -2163718416223210678L;

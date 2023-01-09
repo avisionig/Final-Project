@@ -13,7 +13,10 @@ import nonUserPackage.LogAction;
 import nonUserPackage.StudentDegree;
 import nonUserPackage.TeacherDegree;
 import uniSystemPackage.Database;
-
+/**
+ * Admin class that creates and deletes users, can check logs. 
+ *
+ */
 public final class Admin extends User{
 
 	private Admin(String firstName, String lastName) {
@@ -24,9 +27,17 @@ public final class Admin extends User{
 	void setUserID() {
 		this.userID = "ADMIN777";
 	}
+	/**
+	 * 
+	 * @return instance of Admin to use it.
+	 */
 	public static Admin adminning() {
 		return admin;
 	}
+	/**
+	 * Creates Manager, Student or Teacher.
+	 * @return some user
+	 */
 	public User addUser() {
 		System.out.println("Who you want to add?");
 		System.out.println("1.Student\n2.Teacher\n3.Manager");
@@ -59,6 +70,9 @@ public final class Admin extends User{
 		}
 		return null;
 	}
+	/**
+	 * deletes user with login, info about deleted user will be in logs than.
+	 */
 	public void deleteUser() {
 		System.out.println("Who you want to delete?:");
 		System.out.println("1.Student\n2.Teacher\n3.Manager");
@@ -89,7 +103,11 @@ public final class Admin extends User{
 		}
 	}
 	
-	
+	/**
+	 * User menu to do work of admin in console. That method invokes in UniSystem class.
+	 * @see uniSystemPackage.UniSystem
+	 * @param input
+	 */
 	public void userMenu(BufferedReader input) {
 		while(true) {
 			super.userMenu(input);

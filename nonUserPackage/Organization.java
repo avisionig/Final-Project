@@ -3,7 +3,10 @@ package nonUserPackage;
 import java.io.Serializable;
 
 import userPackage.*;
-
+/**
+ * Created by Students and Dean.
+ *@see userPackage.Dean
+ */
 public class Organization implements Serializable{
 
 	private static final long serialVersionUID = 1775228474882123168L;

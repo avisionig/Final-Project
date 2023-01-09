@@ -11,22 +11,28 @@ import java.util.StringTokenizer;
 
 import nonUserPackage.*;
 import uniSystemPackage.*;
-
+/**
+ * 
+ * class Manager, creates news, courses, lessons for them, puts teacher to course, approves requests and etc.
+ *
+ */
 public class Manager extends Employee{
 
 	private static final long serialVersionUID = -885431281351803814L;
-//	protected ManagerType managerType;
-	protected Manager(String firstName, String lastName, LocalDate hireDate/*,ManagerType managerType*/) {
+	protected Manager(String firstName, String lastName, LocalDate hireDate) {
 		super(firstName, lastName, hireDate);
 		this.setUserID();
-		/*this.managerType = managerType;*/
 	}
 	
 	protected void setUserID() {
 		this.userID = String.valueOf(this.hireDate.getYear() - 2000) + "MNG0" +String.valueOf((int)(Math.random()*1000+78));
 	}
 	
-	
+	/**
+	 * Creates course, can choose it's faculty and prerequisite , if needed.
+	 * actually don't know if thing with prerequisite, wasn't checked.
+	 * @return new course that will be added in database.
+	 */
 	public Course createCourse() {
 		
 		System.out.print("Write course name and credits amount:");
@@ -55,7 +61,11 @@ public class Manager extends Employee{
 		}
 		return null;
 	}
-	
+	/**
+	 * creates News, that can be see with every user
+	 * @see userPackage.User#viewNews()
+	 * @return news that will be added in database
+	 */
 	public News createNews() {
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -71,7 +81,12 @@ public class Manager extends Employee{
 		}
 		return null;
 	}
-	
+	/**
+	 * checks requests that were send by students
+	 * adds or don't courses
+	 * requests with documents wasn't finished( 
+	 * @throws IOException
+	 */
 	public void checkRequests() throws IOException {
 		System.out.println("All requests:");
 		Database.accessDB().viewAllRequests();
@@ -115,7 +130,11 @@ public class Manager extends Employee{
 		}
 	}
 	
-	
+	/**
+	 * to put teacher to course, create lesson for courses and deletes teachers from course.
+	 * don't know what will happen with schedule of teacher and etc, didn't tested deletion.
+	 * @throws IOException
+	 */
 	public void manageCourse() throws IOException {
 		Database.accessDB().viewAllCourses();
 		System.out.println("Choose course by ID");
@@ -148,6 +167,13 @@ public class Manager extends Employee{
 			System.out.println("Teacher deleted");
 		}
 	}
+	
+	/**
+	 * user menu with important methods of manager.
+	 * invokes in UniSystem class.
+	 * 
+	 * @see uniSystemPackage.UniSystem
+	 */
 	public void userMenu(BufferedReader input) {
 		while(true) {
 			super.userMenu(input);

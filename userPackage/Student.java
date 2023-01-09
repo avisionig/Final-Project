@@ -13,7 +13,12 @@ import PaperPackage.TaskPaper;
 import PaperPackage.TaskPaperType;
 import nonUserPackage.*;
 import uniSystemPackage.Database;
-
+/**
+ * Student class, student can register to courses, do tasks, put attendance, get books and then read them.
+ * Student can be researcher if their degree PhD.
+ * @author ayan
+ *
+ */
 public class Student extends User implements Scheduleable{
 	private static final long serialVersionUID = 7227165493952096441L;
 	protected int yearOfEducation = 1;
@@ -73,6 +78,9 @@ public class Student extends User implements Scheduleable{
 	public void viewSchedule() {
 		System.out.println(this.schedule);
 	}
+	/**
+	 * Method to check Attendance, if attendance was turned on in teacher class.
+	 */
 	public void checkAttendance(){
 		System.out.println("Attendamce:");
 		this.coursesAndMarks.entrySet().stream().filter(c -> c.getValue().getAttendanceStatus() == true).map(c -> this.schedule.findLessonByCourse(c.getKey())).forEach(System.out :: println);
@@ -92,6 +100,11 @@ public class Student extends User implements Scheduleable{
 		}
 		
 	}
+	/**
+	 * Method that "do" tasks, after task is done student gets some score.
+	 * To check tasks in course, course name need to be written.
+	 * To do task that student have student need to write task name and it's type separated with space. 
+	 */
 	public void checkTasks() {
 		for(Course c : this.coursesAndMarks.keySet()) {
 			System.out.println(c);
@@ -103,9 +116,13 @@ public class Student extends User implements Scheduleable{
 			Course c = Database.accessDB().findCoursebyName(courseName);
 			Lesson l = this.schedule.findLessonByCourse(c);
 			l.viewTasks();
-			System.out.println("Choose task name and type:");
+			System.out.println("Choose task name and type(type enter to leave, if there is nothing ;) ):");
 			String task = br.readLine();
+			
 			StringTokenizer st = new StringTokenizer(task, " ");
+			if(!st.hasMoreElements()) {
+				return;
+			}
 			TaskPaper tp = l.getTaskPaperByNameAndType(st.nextToken(), TaskPaperType.valueOf(st.nextToken()));
 			Database.accessDB().findTeacherByID(tp.getSender()).checkDoneTask(new DoneTaskPaper(tp, this.userID));
 		} catch (IOException e) {
@@ -113,6 +130,12 @@ public class Student extends User implements Scheduleable{
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Student register to course, it actually creates request. 
+	 * Student writes courseID that student wants to learn and writes time of lesson. 
+	 * @return request that will be checked with manager
+	 * @throws IOException
+	 */
 	public Request registerTo() throws IOException {
 		String courseID;
 		System.out.println("Choose course:");
@@ -171,13 +194,18 @@ public class Student extends User implements Scheduleable{
 		return this.yearOfEducation == s.yearOfEducation && this.faculty == s.faculty;
 	}
 	
-	
+	/**
+	 * Creates subscription in "library" to get books. Student can have several subscriptions, but one is enough. Invoke this method only time, please. 
+	 * 
+	 */
 	public void getSubscription() {
 		Librarian.getLibrarian().addLibrarySubscription(this);
 		System.out.println("Added");
 	}
 	
-	
+	/**
+	 * gets book from "library" and adds that book to subscription.
+	 */
 	public void getBook() {
 		Database.accessDB().viewBooks();
 		System.out.println("Write bookID you want to get:");
@@ -191,7 +219,9 @@ public class Student extends User implements Scheduleable{
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * shows content of book.
+	 */
 	public void readBooks() {
 		LibrarySubscription ls = Librarian.getLibrarian().findLibrarySubscriptionByStudentId(this.userID);
 		if(ls != null) { 
@@ -211,7 +241,11 @@ public class Student extends User implements Scheduleable{
 			}
 		}
 	}
-	
+	/**
+	 * method that combines 3 methods that connected with books.
+	 * This method than invokes in user menu method.
+	 * @param input
+	 */
 	public void library(BufferedReader input) {
 		while(true) {System.out.println("1.Get subscription\n2.Get book\n3.Read book\n4.Leave");
 			try {
@@ -238,6 +272,10 @@ public class Student extends User implements Scheduleable{
 		}
 		
 	}
+	/**
+	 * method that combines all important method of student that needed. that method invokes in UniSystem class.
+	 * @see uniSystemPackage.UniSystem
+	 */
 	public void userMenu(BufferedReader input) {
 		while(true) {
 			super.userMenu(input);

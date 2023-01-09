@@ -2,7 +2,12 @@ package PaperPackage;
 
 import java.time.LocalDate;
 import java.util.Objects;
-
+/**
+ * Child class of Paper.
+ * ResearchPaper is created in Researcher class student either teacher, can be published as book.
+ * Has content field of what in research.
+ *
+ */
 public class ResearchPaper extends Paper {
 
 	private static final long serialVersionUID = 1525333223133379900L;

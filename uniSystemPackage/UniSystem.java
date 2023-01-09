@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 import userPackage.*;
-
+/**
+ * class System, has only on method turnOn(). Saves data when closes.
+ */
 public class UniSystem {
 
 	protected String systemName;

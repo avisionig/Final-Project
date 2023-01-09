@@ -3,7 +3,10 @@ package nonUserPackage;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-
+/**
+ * News, can be created by Manager and see by all Users.
+ *
+ */
 public class News implements Serializable{
 	private static final long serialVersionUID = -4521726234280720616L;
 	private String newsID, title, description;

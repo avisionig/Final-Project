@@ -9,7 +9,11 @@ import PaperPackage.*;
 import uniSystemPackage.Database;
 import userPackage.Student;
 import userPackage.Teacher;
-
+/**
+ * Class of lesson, Teacher and Student have lessons in their schedule. Tasks that were created by Teacher can be available in Lesson class.
+ * Have field of time, room, course and teacher.
+ *@see nonUserPackage.Schedule
+ */
 public class Lesson implements Serializable{
 
 	private static final long serialVersionUID = 6064200216371872457L;
@@ -47,6 +51,12 @@ public class Lesson implements Serializable{
 		Lesson l = (Lesson) o;
 		return this.room == l.room && this.timeOfLesson.equals(l.timeOfLesson) && this.lessonTeacher.equals(l.lessonTeacher) && this.courseLesson.equals(l.courseLesson);
 	}
+	/**
+	 * To check in 2 lessons have collision.
+	 * @see nonUserPackage.Schedule#addLesson(Lesson)
+	 * @param l
+	 * @return boolean, true if there is collision (13:00-15:00 and 14:00-16:00 have collision), else false.
+	 */
 	public boolean timeCollsision(Lesson l) {
 		return this.timeOfLesson.hourCollision(l.getTime());
 	}
@@ -56,6 +66,9 @@ public class Lesson implements Serializable{
 	public HashMap<TaskPaper, Boolean> getTasks(){
 		return this.tasks;
 	}
+	/**
+	 * @see userPackage.Teacher#viewStudentsMarksInLesson()
+	 */
 	public void viewMarksOfStudents() {
 		for(Student s : Database.accessDB().getStudents()) {
 			if(s.getSchedule().lessons.contains(this))
@@ -69,6 +82,12 @@ public class Lesson implements Serializable{
 			}
 		}
 	}
+	/**
+	 * @see userPackage.Student#checkTasks()
+	 * @param name
+	 * @param tp
+	 * @return task that will be used to create donetask
+	 */
 	public TaskPaper getTaskPaperByNameAndType(String name, TaskPaperType tp) {
 		for(Entry<TaskPaper, Boolean> tpb: this.tasks.entrySet()) {
 			if(tpb.getKey().getPaperName().equals(name) &&tpb.getKey().getTaskType().equals(tp)) {

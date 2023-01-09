@@ -14,7 +14,11 @@ import java.util.Objects;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.stream.Collectors;
-
+/**
+ * 
+ * Singleton class of Librarian, adds books in database, views books, deletes and views subscriptions.
+ *
+ */
 public class Librarian extends User {
 	
 	private static final long serialVersionUID = -8023422525795240858L;
@@ -35,14 +39,21 @@ public class Librarian extends User {
         return Database.accessDB().getSubscriptions();
     }
 
-
+    /**
+     * That method invokes in Student class, when student takes book
+     * @param student
+     * @param book
+     * @see userPackage.Student#getBook()
+     */
     public void giveBook(Student student, Book book) {
     	LibrarySubscription ls =  findLibrarySubscriptionByStudentId(student.getUserID());
         if (ls != null) {
         	ls.addBook(book);
         }
     }
-    
+    /**
+     * adds new book in database.
+     */
     public void createBook() {
     	System.out.println("Write book name, author:");
     	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -72,7 +83,11 @@ public class Librarian extends User {
     	Database.accessDB().getSubscriptions().forEach(System.out::println);
     }
 
-    
+    /**
+     * creates subscription for student, that method invokes in student class when getSubscription() method is active.
+     * @param student
+     * @see userPackage.Student#getSubscription()
+     */
     public void addLibrarySubscription(Student student) {
         String id = String.valueOf((int) (Math.random() * 1000 + 100));
         if (findLibrarySubscriptionById(id) != null) {
@@ -109,7 +124,10 @@ public class Librarian extends User {
     protected void setUserID(){
         this.userID = "LIBRARIAN777";
     }
-    
+    /**
+     * user menu for Librarian, all important methods that need to be invoked in UniSystem.
+     * @see uniSystemPackage.UniSystem
+     */
     public void userMenu(BufferedReader in) {
     	while(true) {
     		super.userMenu(in);

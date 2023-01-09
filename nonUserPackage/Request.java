@@ -3,7 +3,11 @@ package nonUserPackage;
 import java.io.Serializable;
 
 import userPackage.User;
-
+/**
+ * Class that can be created in Student, than Manager will check requests. Saved in database.
+ *@see userPackage.Student#registerTo()
+ *@see userPackage.Manager#checkRequests()
+ */
 public class Request implements Serializable{
 
 	private static final long serialVersionUID = 2212615291854504554L;

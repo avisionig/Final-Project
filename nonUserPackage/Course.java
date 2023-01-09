@@ -5,7 +5,13 @@ import java.util.Objects;
 import java.util.Vector;
 
 import userPackage.*;
-
+/**
+ * Course class, created by Manager, taken by Student and taught by Teacher.
+ * Courses are divided to faculties, if faculty is BASE it belongs to everyone.
+ * Have prerequisite field, but I don't know if it works correctly.
+ * Contains Vector of Teachers.
+ *
+ */
 public class Course implements Serializable{
 	
 	private static final long serialVersionUID = -3566405900025536509L;

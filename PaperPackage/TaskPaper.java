@@ -2,7 +2,13 @@ package PaperPackage;
 
 import java.time.LocalDate;
 import java.util.Objects;
-
+/**
+ * Task Paper, task that given to student by Teacher.
+ * @see userPackage.Teacher#setTasks()
+ * @see userPackage.Teacher#createTask()  
+ * Has field of type (MID, END, HW, etc)
+ * @see PaperPackage.TaskPaperType
+ */
 public class TaskPaper extends Paper{
 
 	private static final long serialVersionUID = 3364195740706364585L;

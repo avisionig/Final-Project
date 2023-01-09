@@ -7,7 +7,10 @@ import java.util.Objects;
 
 import nonUserPackage.Organization;
 import uniSystemPackage.Database;
-
+/**
+ * Dean class, creates organization. Not finished
+ *
+ */
 public class Dean extends User{
 	private static Dean dean = new Dean("Dean", "Master");
 	protected Dean(String firstName, String lastName) {
@@ -20,8 +23,12 @@ public class Dean extends User{
 	public static Dean deaning() {
 		return dean;
 	}
-    public void createOrganization(Student s){
-    	Organization o = new Organization(s);
+	/**
+	 * creates Organization, this method invokes in Student class. Puts student as the head of organization that was send as argument.
+	 * @param student
+	 */
+    public void createOrganization(Student student){
+    	Organization o = new Organization(student);
     	Database.accessDB().getOrganizations().add(o);
     	System.out.println("Organization created " + o.getOrgID());
     	BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

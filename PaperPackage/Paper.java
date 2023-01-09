@@ -3,7 +3,10 @@ package PaperPackage;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
-
+/**
+ * Parent class of all paper classes. Task, Research, Done task and etc. 
+ * Doesn't have any complicated methods, just setters and getters.
+ */
 public class Paper implements Serializable, Comparable<Paper>{
 
 	private static final long serialVersionUID = -5521859643283924756L;

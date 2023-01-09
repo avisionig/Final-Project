@@ -4,7 +4,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import java.util.Objects;
-
+/**
+ * It is a book, quite understandable. Have content that can be read by Student. Created by Librarian, all books are saved in Database
+ * @see userPackage.Student#readBooks()
+ * @see userPackage.Librarian#createBook() 
+ *@see uniSystemPackage.Database
+ */
 public class Book implements Serializable{
    
 	private static final long serialVersionUID = 2942921656208602622L;

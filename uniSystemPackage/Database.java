@@ -16,7 +16,12 @@ import java.util.Vector;
 
 import nonUserPackage.*;
 import userPackage.*;
-
+/**
+ * class of Database, all data is here.
+ * Data is written to serialization file and read from serialization file. There all vectors of important classes.
+ * Getters, viewers and etc. 
+ * Searching from database with some arguments (ID, name, login).
+ */
 public class Database implements Serializable{
 
 	private static final long serialVersionUID = 1293761087682124070L;

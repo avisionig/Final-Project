@@ -2,12 +2,15 @@ package nonUserPackage;
 
 import java.io.Serializable;
 
-
+/**
+ * Mark of student connected to some course. Teacher can put scores to mark and student can see them.
+ *	@see userPackage.Student
+ */
 public class Mark implements Serializable{
 
 	private static final long serialVersionUID = 2041843948330859866L;
 	
-	
+	private int absence = 0;
 	private Attestaion first;
 	private Attestaion second;
 	private FinalAttestaion finalAtt;
@@ -38,10 +41,26 @@ public class Mark implements Serializable{
 		}
 		else if (this.second.getStatus()) {
 			this.second.changeStatus();
+			if((this.first.getPoint() + this.second.getPoint() < 29.5) || this.absence > 9) {
+				this.finalAtt.changeStatus();
+				System.out.println("Bro you got retake(");
+			}
 		}
 		else if(this.finalAtt.getStatus()) {
-			this.finalAtt.changeStatus();
+			if(this.finalAtt.getPoint() < 9.5) {
+				System.out.println("Bro you got retake(");
+				this.finalAtt.changeStatus();
+			}
+			if(this.finalAtt.getPoint() < 19.5) {
+				System.out.println("Bro you have FX, try again");
+			}
 		}
+	}
+	public int getAbsence() {
+		return this.absence;
+	}
+	public void increaseAbsence() {
+		this.absence += 1;
 	}
 	public boolean getAttendanceStatus() {
 		return this.attendance;
@@ -51,6 +70,9 @@ public class Mark implements Serializable{
 	}
 	public void launchAttendance() {
 		if(!this.attendance) this.attendance = true; 
+	}
+	public void closeAttendance() {
+		if(this.attendance) this.attendance = false;
 	}
 	public boolean equals(Object o) {
 		if (o == null) return false;

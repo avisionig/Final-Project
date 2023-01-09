@@ -1,7 +1,12 @@
 package PaperPackage;
 
 import java.util.Objects;
-
+/**
+ * Child class of TaskPaper, created in Student. Created donetask than is "checked" by teacher.
+ * @see userPackage.Student#checkTasks()
+ * @see userPackage.Teacher#checkDoneTask(DoneTaskPaper) 
+ *
+ */
 public class DoneTaskPaper extends TaskPaper{
 
 	private static final long serialVersionUID = 5757435423744273513L;

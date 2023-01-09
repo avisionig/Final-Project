@@ -1,3 +1,4 @@
+
 package userPackage;
 
 import java.io.BufferedReader;
@@ -10,7 +11,11 @@ import java.util.StringTokenizer;
 
 import uniSystemPackage.Database;
 
-
+/**
+ * User is abstract class that is base for all user classes.
+ * @author Ayan, Amir, Serikbolsyn and Dinmukhamed.
+ *
+ */
 public abstract class User implements Comparable<User>, Serializable, Cloneable {
     
 	private static final long serialVersionUID = 181327650330927735L;
@@ -29,6 +34,9 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     	if(!(this instanceof Admin) && !(this instanceof ResearchDecorator) && !(this instanceof Librarian) && !(this instanceof Dean))System.out.println("Login: " + this.getLogin() + " | password: " + this.getPassword());
     	
     }
+    /**
+     * Method that creates ID for User, it is overridden in child classes of User
+     */
     abstract void setUserID(); 
     public String getUserID() {
         return this.userID;
@@ -40,7 +48,9 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     public String getPassword(){
     	return this.password;
     }
-
+    /**
+     * Method that changes password, actually it's not test so, don't know if it works
+     */
     public void changePassword() {
     	System.out.print("Type old password:");
         try{
@@ -59,6 +69,12 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
         	System.out.println("Something is wrong!");
         	}
     }
+    /**
+     * To ensure that there won't be no input so NullPointer won't show. Forces user to write login and password in case if not written.
+     * @param input
+     * @param loginAndPassword
+     * @return login and password
+     */
     public static String loginToAccount(BufferedReader input, String loginAndPassword) {
     	try {
     		StringTokenizer st = new StringTokenizer(loginAndPassword);
@@ -92,11 +108,12 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
     public String getLastName() {
         return this.lastName;
     }
-
+    /**
+     * Method to see news.
+     */
     public void viewNews() {
     	Database.accessDB().viewNews();
     }
-	@Override
 	public int compareTo(User o) {
 		if (this.firstName.compareToIgnoreCase(o.firstName) == 1) return 1;
 		else if (this.firstName.compareToIgnoreCase(o.firstName) == 0 && this.lastName.compareToIgnoreCase(o.lastName) == 1)return 1;
@@ -112,6 +129,12 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
 	public int hashCode() {
 		return Objects.hash(this.userID);
 	}
+	/**
+	 * This method was written so there weren't be repeated code in UniSystem class
+	 * @param password
+	 * @return boolean to login to user account
+	 * @throws IOException
+	 */
 	public boolean checkPassword(String password) throws IOException{
 		while(true) {
 			if(this.getPassword().equals(password)) {
@@ -138,6 +161,11 @@ public abstract class User implements Comparable<User>, Serializable, Cloneable 
 		}
 		return false;
 	}
+	/**
+	 * Method that will be invoked in UniSystem class, shows what user can do.
+	 * @param input
+	 * @see uniSystemPackage.UniSystem
+	 */
 	public void userMenu(BufferedReader input) {
 		System.out.println("What to do?(type Q to leave)");
 	}

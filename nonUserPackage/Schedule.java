@@ -6,7 +6,10 @@ import java.util.Vector;
 import userPackage.Teacher;
 import java.time.DayOfWeek;
 
-
+/**
+ * Class that have Vector of Lessons, adds lessons in Vector if there is  no collision, if there is collision doesn't add.
+ * 
+ */
 public class Schedule implements Serializable{
 
 	private static final long serialVersionUID = -8852617912468901608L;

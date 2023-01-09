@@ -2,7 +2,10 @@ package PaperPackage;
 
 import java.time.LocalDate;
 import java.util.Objects;
-
+/**
+ * We had idea, but wasn't realized(
+ *
+ */
 public class Document extends Paper{
 	
 	private static final long serialVersionUID = -4730063535945046635L;
